@@ -1,0 +1,1862 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>FarmersDelight</title>
+<style>
+:root{--g:#2F7D3B;--gd:#1F5C2A;--gl:#DDEFD9;--a:#B8690A;--al:#FCE8C4;--ad:#7A4D06;--b:#1A4C84;--bl:#DCEAF8;--r:#9B2F26;--rl:#F8DEDA;--bg:#F5F7F2;--ink:#17231B;--mut:#5C6A60;--ln:#DDE3D8}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--ink);font-family:Roboto,'Noto Sans Tamil',system-ui,sans-serif;font-size:15px;line-height:1.35}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input,select,textarea{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+#app{min-height:100vh;padding-bottom:86px}
+#app.nonav{padding-bottom:24px}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 16px 10px;display:flex;align-items:center;gap:10px}
+.top h1{font-size:21px;font-weight:800;flex:1;letter-spacing:-.2px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib{width:44px;height:44px;border-radius:14px;background:#fff;border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;flex:none;position:relative}
+.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.wrap{padding:0 16px}
+.card{background:#fff;border:1px solid var(--ln);border-radius:18px}
+.pad{padding:14px}
+.pill{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:800;white-space:nowrap}
+.p-g{background:var(--gl);color:#1D5A28}.p-a{background:var(--al);color:var(--ad)}.p-b{background:var(--bl);color:var(--b)}.p-r{background:var(--rl);color:var(--r)}.p-n{background:#E8ECE4;color:#3F4B43}
+.btn{height:52px;border-radius:14px;background:var(--g);color:#fff;font-weight:800;font-size:16px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px}
+.btn.sec{background:#fff;color:var(--gd);border:1.5px solid var(--g)}
+.btn.warn{background:#fff;color:var(--r);border:1.5px solid #E3B5AF}
+.btn.amber{background:var(--a)}
+.btn:disabled{opacity:.45}
+.btn.sm{height:40px;font-size:14px;width:auto;border-radius:12px;white-space:nowrap;padding:0 12px}
+.btns{display:flex;gap:8px;margin-top:10px}.btns .btn{flex:1}
+.fld{width:100%;height:50px;border:1.5px solid #CBD3C6;background:#fff;border-radius:14px;padding:0 14px;font-size:16px;font-weight:600;outline:0}
+.fld:focus{border-color:var(--g)}
+textarea.fld{height:84px;padding:12px 14px;resize:none}
+.flab{display:block;font-size:13px;font-weight:800;color:#33403A;margin:14px 0 6px}
+.hint{font-size:12.5px;color:var(--mut);margin-top:6px;line-height:1.45}
+.lab{font-size:12px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 8px}
+.row{display:flex;align-items:center}
+.sb{justify-content:space-between}
+.muted{color:var(--mut)}.sm{font-size:12.5px}.b{font-weight:800}.big{font-size:20px;font-weight:800}
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.nav{position:fixed;left:0;right:0;bottom:0;height:70px;background:#fff;border-top:1px solid var(--ln);display:flex;justify-content:space-around;align-items:center;z-index:10;padding-bottom:4px}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--mut);min-width:62px;min-height:52px;justify-content:center;position:relative}
+.nav button.on{color:var(--g)}
+.badge{position:absolute;top:4px;right:12px;min-width:18px;height:18px;border-radius:99px;background:#C8412F;color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.ib .badge{top:-5px;right:-5px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{height:38px;padding:0 14px;border-radius:99px;border:1.5px solid #CBD3C6;background:#fff;font-size:13px;font-weight:700;white-space:nowrap;flex:none}
+.chip.on{background:var(--g);border-color:var(--g);color:#fff}
+.seg{display:flex;background:#E6EBE1;border-radius:12px;padding:3px}
+.seg button{flex:1;height:38px;border-radius:9px;font-weight:800;font-size:14px;color:var(--mut);padding:0 12px;white-space:nowrap}
+.seg .on{background:#fff;color:#256330;box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.tile{width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:36px;flex:none}
+.lc{display:flex;gap:12px;padding:12px;align-items:center;margin-bottom:10px;width:100%;text-align:left}
+.lc .nm{font-size:16px;font-weight:800}
+.lc .pr{text-align:right;flex:none}
+.lc .pr .v{font-size:18px;font-weight:800}
+.mid{flex:1;min-width:0}
+.ell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map{position:relative;height:250px;background:#E4ECD9;overflow:hidden}
+.map .rd{position:absolute;background:#fff;border-radius:5px}
+.map .pk{position:absolute;background:#CFE3BC;border-radius:16px}
+.map .wt{position:absolute;background:#C6DDEE;border-radius:24px}
+.mk{position:absolute;transform:translate(-50%,-50%);height:30px;padding:0 10px;border-radius:99px;font-size:12.5px;font-weight:800;display:flex;align-items:center;color:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(23,35,27,.25);white-space:nowrap;background:var(--g)}
+.mk.a{background:var(--a)}.mk.n{background:var(--b)}.mk.me{background:#17231B}
+.you{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#2D6CB5;border:3px solid #fff;box-shadow:0 0 0 9px rgba(45,108,181,.2)}
+.maptag{position:absolute;left:10px;top:10px;background:#fff;border-radius:99px;padding:6px 12px;font-size:12px;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.pinarea{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;background:rgba(47,125,59,.18);border:2px dashed var(--g)}
+.pin{position:absolute;width:26px;height:26px;margin:-26px 0 0 -13px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#C8412F;border:3px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+.stp{display:flex;align-items:center;border:1.5px solid #CBD3C6;border-radius:14px;background:#fff;height:50px;overflow:hidden}
+.stp button{width:50px;height:100%;font-size:22px;font-weight:800;color:var(--gd)}
+.stp input{flex:1;text-align:center;border:0;outline:0;font-size:17px;font-weight:800;min-width:0;background:none}
+.kv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #EEF1EA;font-size:14.5px}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:var(--mut)}
+.kv span:last-child{font-weight:800;text-align:right}
+.tl{position:relative;padding-left:26px}
+.tl .st{position:relative;padding:0 0 16px}
+.tl .st:before{content:"";position:absolute;left:-21px;top:3px;width:12px;height:12px;border-radius:50%;background:#CBD3C6;border:2px solid #fff;box-shadow:0 0 0 1.5px #CBD3C6}
+.tl .st.done:before{background:var(--g);box-shadow:0 0 0 1.5px var(--g)}
+.tl .st:after{content:"";position:absolute;left:-15px;top:18px;bottom:-2px;width:2px;background:#DDE3D8}
+.tl .st:last-child:after{display:none}
+.tl .st.done:after{background:var(--g)}
+.note{border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.5;display:flex;gap:10px;align-items:flex-start}
+.note.g{background:#EDF6EA;color:#244F2C}.note.a{background:#FDF1DA;color:#5E3B05}.note.b{background:#E6F0FA;color:#173F6B}.note.r{background:var(--rl);color:var(--r)}
+.note .ic{width:18px;height:18px;margin-top:1px}
+.stars{display:flex;gap:6px}
+.stars button{font-size:36px;line-height:1;color:#D5DBD0}
+.stars button.on{color:#E08A00}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.vg{background:#fff;border:1.5px solid var(--ln);border-radius:14px;padding:8px 2px;text-align:center;font-size:11.5px;font-weight:700;min-height:76px}
+.vg .e{font-size:28px;display:block;margin-bottom:3px}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{aspect-ratio:1/1;border-radius:14px;border:2px dashed #BFC8BA;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:800;color:#5C6A60;position:relative;text-align:center;padding:4px;overflow:hidden}
+.slot.cover{border-color:#2F7D3B;background:#F3F9F1;color:#1F5C2A}
+.slot.err{border-color:#C8412F;background:#FBEDEB;color:#9B2F26}
+.slot.vid{border-color:#E2C48E;background:#FDF6E8;color:#7A4D06}
+.slot.rem,.tile.rem{border:2px solid #E3B5AF;background:repeating-linear-gradient(45deg,#FBEDEB,#FBEDEB 6px,#fff 6px,#fff 12px);color:#9B2F26}
+.slot .pl{font-size:24px;font-weight:400;line-height:1}
+.slot .req{color:#9B2F26;font-size:10.5px}
+.slot.fill{border:0;padding:0;background:#17231B}
+.slot.fill img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.x{position:absolute;top:5px;right:5px;width:24px;height:24px;border-radius:50%;background:rgba(23,35,27,.75);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:2}
+.badge2{position:absolute;left:5px;bottom:5px;background:#2F7D3B;color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:99px;z-index:2}
+.rbadge{position:absolute;left:5px;top:5px;background:#C8412F;color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;z-index:2}
+.dur{position:absolute;right:5px;bottom:5px;background:rgba(0,0,0,.65);color:#fff;font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:6px;z-index:2}
+.playc{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;z-index:2;font-size:14px;color:#17231B;border:0}
+.playc.big{width:60px;height:60px;margin:-30px 0 0 -30px;font-size:24px}
+.opt{display:flex;gap:14px;align-items:center;padding:13px 4px;border-bottom:1px solid #EEF1EA;width:100%;text-align:left}
+.opt:last-child{border-bottom:0}
+.opt .oi{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
+.photo-big{border-radius:16px;overflow:hidden;background:#17231B;margin-bottom:12px}
+.photo-big img{width:100%;max-height:52vh;object-fit:contain;display:block}
+.cam2{position:fixed;inset:0;background:#000;color:#fff;z-index:30;display:flex;flex-direction:column}
+.camtop{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;height:64px}
+.cbtn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:20px;font-weight:700}
+.cpill{background:rgba(255,255,255,.18);padding:6px 12px;border-radius:99px;font-size:13px;font-weight:800}
+.vf2{position:relative;flex:1;overflow:hidden;background:#111}
+.vf2 video{width:100%;height:100%;object-fit:cover}
+.grid3{position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.22) 1px,transparent 1px) 0 0/100% 33.3%,linear-gradient(90deg,rgba(255,255,255,.22) 1px,transparent 1px) 0 0/33.3% 100%;pointer-events:none}
+.ctip{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(0,0,0,.55);border-radius:12px;padding:8px 12px;font-size:12.5px;font-weight:700}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .15s}#flash.on{opacity:.8}
+.cmodes{display:flex;justify-content:center;gap:28px;padding:14px 0 6px}.cmodes button{color:rgba(255,255,255,.7);font-weight:800;font-size:13px;letter-spacing:.5px}.cmodes button.on{color:#F2A33A}
+.cbar{display:flex;align-items:center;justify-content:space-around;padding:10px 0 26px}
+.cthumb{width:52px;height:52px;border-radius:12px;overflow:hidden;border:2px solid #fff;background:#222}.cthumb img{width:100%;height:100%;object-fit:cover}
+.shutter2{width:78px;height:78px;border-radius:50%;border:5px solid #fff;display:flex;align-items:center;justify-content:center}.shutter2 i{display:block;width:60px;height:60px;border-radius:50%;background:#fff}
+.shutter2:active i{transform:scale(.9)}
+.recbtn{width:86px;height:86px;line-height:0}
+.viewer{position:fixed;inset:0;background:#000;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.viewer video,.viewer img{width:100%;max-height:80vh;object-fit:contain}
+.vclose{position:absolute;top:14px;left:14px;z-index:2}
+.vcap{color:#fff;font-size:13px;font-weight:700;margin-top:12px;opacity:.85}
+.vprog{width:80%;height:4px;background:rgba(255,255,255,.25);border-radius:9px;margin-top:10px;overflow:hidden}.vprog i{display:block;height:100%;width:0;background:#F2A33A}
+.gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:20px;scrollbar-width:none;height:260px;background:#E8ECE4}
+.gal::-webkit-scrollbar{display:none}
+.gslide{flex:0 0 100%;scroll-snap-align:start;position:relative}
+.gslide img{width:100%;height:100%;object-fit:cover;display:block}
+.wrap{position:relative}
+.gcount{position:absolute;right:26px;top:10px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:8px}.dots i{width:7px;height:7px;border-radius:50%;background:#CBD3C6}.dots i.on{background:#2F7D3B;width:18px;border-radius:9px}
+.hero.rem2{flex-direction:column;background:repeating-linear-gradient(45deg,#FBEDEB,#FBEDEB 10px,#fff 10px,#fff 20px);height:200px}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid #BFC8BA;flex:none;position:relative}.radio.on{border-color:#2F7D3B}.radio.on:after{content:"";position:absolute;inset:4px;border-radius:50%;background:#2F7D3B}
+#busy{position:fixed;inset:0;background:rgba(10,20,12,.55);z-index:70;display:flex;align-items:center;justify-content:center}
+.busybox{background:#fff;border-radius:18px;padding:22px 28px;text-align:center;min-width:220px}
+.spin{width:40px;height:40px;border-radius:50%;border:4px solid #DDEFD9;border-top-color:#2F7D3B;margin:0 auto;animation:sp 0.9s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.trimbox{position:relative;border-radius:18px;overflow:hidden;background:#000;height:360px}.trimbox video{width:100%;height:100%;object-fit:contain}
+.range{width:100%;margin-top:14px;accent-color:#B8690A;height:32px}
+.vg.sp{background:#FDF6E8;border-style:dashed;border-color:#E2C48E}
+.vg .cnt{display:block;font-size:10.5px;color:#5C6A60;font-weight:600;margin-top:2px}
+.crow{display:flex;gap:12px;align-items:center;padding:10px 12px;margin-bottom:8px;width:100%;text-align:left}
+.crow.on{border-color:var(--g);box-shadow:0 0 0 1.5px var(--g) inset;background:#F3F9F1}
+.emo{width:46px;height:46px;border-radius:12px;border:1.5px solid var(--ln);background:#fff;font-size:24px}
+.emo.on{border-color:var(--g);background:#EDF6EA;box-shadow:0 0 0 1.5px var(--g) inset}
+.vg.on{border-color:var(--g);background:#EDF6EA;box-shadow:0 0 0 1.5px var(--g) inset}
+.sw{appearance:none;-webkit-appearance:none;width:52px;height:30px;border-radius:99px;background:#BFC8BA;position:relative;flex:none;outline:0}
+.sw:before{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s}
+.sw:checked{background:var(--g)}.sw:checked:before{left:25px}
+.prog{height:10px;border-radius:99px;background:#E6EBE1;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--g);border-radius:99px}
+.stat{flex:1;padding:12px 8px;text-align:center}
+.stat .v{font-size:20px;font-weight:800}
+.empty{text-align:center;padding:40px 20px;color:var(--mut)}
+.empty .e{font-size:44px;margin-bottom:8px}
+.sheetbg{position:fixed;inset:0;background:rgba(10,20,12,.45);z-index:40;display:flex;align-items:flex-end}
+.sheet{background:#fff;width:100%;border-radius:22px 22px 0 0;padding:18px 16px 22px;max-height:85vh;overflow:auto}
+.grab{width:42px;height:5px;border-radius:9px;background:#D5DBD0;margin:-6px auto 12px}
+#toast{position:fixed;left:16px;right:16px;bottom:86px;background:#17231B;color:#fff;padding:13px 16px;border-radius:14px;font-weight:700;font-size:14px;opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none;z-index:60}
+#toast.on{opacity:1;transform:none}
+.hero{height:150px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:84px}
+.avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;flex:none;background:var(--gl);color:#1D5A28}
+.logo{width:84px;height:84px;border-radius:26px;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:46px;margin:0 auto}
+.rc{display:flex;gap:12px;align-items:center;padding:16px;margin-bottom:12px;width:100%;text-align:left}
+.rc .e{font-size:40px;width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex:none}
+.cd{color:var(--r);font-weight:800}
+.lnk{color:var(--gd);font-weight:800}
+.item{display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid #EEF1EA;width:100%;text-align:left}
+.item:last-child{border-bottom:0}
+.item .t{flex:1;font-size:15px;font-weight:700}
+.otp{letter-spacing:10px;text-align:center;font-size:22px}
+.unread{background:#F2F8EF}
+.fab{position:fixed;right:16px;bottom:84px;height:52px;padding:0 20px;border-radius:16px;background:var(--g);color:#fff;font-weight:800;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(31,92,42,.35);z-index:9}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-explore" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+<symbol id="i-bids" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12z"/><circle cx="7.5" cy="8.5" r="1.3"/></symbol>
+<symbol id="i-orders" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4l2-2z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+</svg>
+<div id="app"></div>
+<div id="toast"></div>
+<div id="sheet"></div>
+<script>
+"use strict";
+var KEY = "fd_state_v1";
+var APP = "__APP__";
+var CROPS = __CROPS__;
+var HOUR = 3600000, MIN = 60000;
+
+/* ------------------------------------------------------------ text (English, Tamil) */
+var TX = {
+  taglineF: ["Sell your harvest directly to buyers near you", "உங்கள் விளைச்சலை அருகிலுள்ள வாங்குபவர்களுக்கு நேரடியாக விற்கவும்"],
+  farmerApp: ["Farmer app", "விவசாயி ஆப்"],
+  others: ["Others", "மற்றவை"], unlisted: ["Unlisted", "பட்டியலில் இல்லை"],
+  chooseCrop: ["Choose a crop", "பயிரைத் தேர்ந்தெடுக்கவும்"], searchCrops: ["Search crops", "பயிர்களைத் தேடுக"],
+  cropGroups: ["Crop groups", "பயிர் வகைகள்"], tapGroup: ["Tap a group above to see its crops here.", "பயிர்களைக் காண மேலே ஒரு வகையைத் தொடவும்."],
+  crops: ["crops", "பயிர்கள்"], results: ["results", "முடிவுகள்"], selectedCrop: ["Selected", "தேர்ந்தெடுத்தது"], change: ["Change", "மாற்று"],
+  noMatch: ["No crop matches. You can add it as an unlisted item.", "பொருந்தும் பயிர் இல்லை. பட்டியலில் இல்லாத பொருளாகச் சேர்க்கலாம்."],
+  addUnlistedBtn: ["Add as unlisted item", "பட்டியலில் இல்லாத பொருளாகச் சேர்"],
+  unlistedTitle: ["Unlisted items", "பட்டியலில் இல்லாத பொருட்கள்"], unlistedHint: ["Add something that isn't in our crop list. You can keep up to 5 items.", "எங்கள் பட்டியலில் இல்லாதவற்றைச் சேர்க்கவும். அதிகபட்சம் 5 பொருட்கள்."],
+  itemName: ["Item name", "பொருளின் பெயர்"], itemPh: ["e.g. Country chicken eggs", "எ.கா. நாட்டுக்கோழி முட்டை"], pickIcon: ["Choose an icon", "படத்தைத் தேர்ந்தெடுக்கவும்"],
+  addItem: ["Add and select", "சேர்த்து தேர்ந்தெடு"], myItems: ["My unlisted items", "எனது சேர்த்த பொருட்கள்"], select: ["Select", "தேர்ந்தெடு"], remove: ["Remove", "நீக்கு"],
+  maxItems: ["You've added 5 items, the maximum. Remove one to add another.", "அதிகபட்சமான 5 பொருட்களைச் சேர்த்துவிட்டீர்கள். புதியதைச் சேர்க்க ஒன்றை நீக்கவும்."],
+  dupItem: ["You already added this item", "இந்தப் பொருள் ஏற்கனவே உள்ளது"], needItem: ["Enter the item name", "பொருளின் பெயரை உள்ளிடவும்"],
+  tagline: ["Fresh vegetables straight from farmers near you", "உங்கள் அருகிலுள்ள விவசாயிகளிடமிருந்து நேரடியாக புதிய காய்கறிகள்"],
+  chooseLang: ["Choose your language", "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்"],
+  cont: ["Continue", "தொடரவும்"],
+  signin: ["Sign in", "உள்நுழைக"],
+  yourName: ["Your name", "உங்கள் பெயர்"],
+  mobile: ["Mobile number", "கைபேசி எண்"],
+  sendOtp: ["Send OTP", "OTP அனுப்பு"],
+  enterOtp: ["Enter the 4-digit OTP", "4 இலக்க OTP-ஐ உள்ளிடவும்"],
+  demoOtp: ["Demo version: the OTP is 1234. No SMS is sent.", "டெமோ பதிப்பு: OTP 1234. SMS எதுவும் அனுப்பப்படாது."],
+  verify: ["Verify and continue", "சரிபார்த்து தொடரவும்"],
+  privLogin: ["We only ask for your name and mobile number. The app never reads your contacts, photos, SMS or call logs.", "உங்கள் பெயர் மற்றும் கைபேசி எண் மட்டுமே கேட்கிறோம். உங்கள் தொடர்புகள், புகைப்படங்கள், SMS, அழைப்பு பதிவுகளை ஆப் படிக்காது."],
+  badOtp: ["Wrong OTP. Try 1234.", "தவறான OTP. 1234 முயற்சிக்கவும்."],
+  badPhone: ["Enter a valid 10-digit mobile number", "சரியான 10 இலக்க கைபேசி எண்ணை உள்ளிடவும்"],
+  badName: ["Enter your name", "உங்கள் பெயரை உள்ளிடவும்"],
+  howUse: ["How will you use FarmersDelight?", "FarmersDelight-ஐ எப்படிப் பயன்படுத்துவீர்கள்?"],
+  canSwitch: ["You can switch any time from Profile.", "சுயவிவரத்திலிருந்து எப்போது வேண்டுமானாலும் மாற்றலாம்."],
+  iBuy: ["I want to buy", "நான் வாங்க விரும்புகிறேன்"],
+  iBuyD: ["Find fresh vegetables from farmers nearby", "அருகிலுள்ள விவசாயிகளிடம் புதிய காய்கறிகள்"],
+  iSell: ["I grow and sell", "நான் விளைவித்து விற்கிறேன்"],
+  iSellD: ["Post your harvest at your price, auction or offers", "உங்கள் விளைச்சலை விலை, ஏலம் அல்லது பேரம் மூலம் விற்கவும்"],
+  setupFarm: ["Set up your farm", "உங்கள் பண்ணையை அமைக்கவும்"],
+  farmName: ["Farm name", "பண்ணையின் பெயர்"],
+  village: ["Village or area", "கிராமம் அல்லது பகுதி"],
+  pinFarm: ["Pin your farm", "உங்கள் பண்ணையைக் குறிக்கவும்"],
+  tapMap: ["Tap the map where your farm is.", "உங்கள் பண்ணை இருக்கும் இடத்தில் வரைபடத்தைத் தொடவும்."],
+  pinPriv: ["Buyers only see a shaded area of about 400 m, not your exact spot. The exact location is shared only after you confirm an order.", "வாங்குபவர்கள் சுமார் 400 மீ பகுதியை மட்டுமே பார்ப்பார்கள். ஆர்டரை உறுதி செய்த பிறகே சரியான இடம் பகிரப்படும்."],
+  saveFarm: ["Save farm", "பண்ணையைச் சேமி"],
+  needPin: ["Tap the map to pin your farm", "பண்ணையைக் குறிக்க வரைபடத்தைத் தொடவும்"],
+  needFarmName: ["Enter farm name and village", "பண்ணை பெயரையும் கிராமத்தையும் உள்ளிடவும்"],
+  explore: ["Explore", "தேடு"], bids: ["Bids", "ஏலங்கள்"], orders: ["Orders", "ஆர்டர்கள்"], alerts: ["Alerts", "அறிவிப்புகள்"], profile: ["Profile", "சுயவிவரம்"],
+  home: ["Home", "முகப்பு"], add: ["Add", "சேர்"], offers: ["Offers", "சலுகைகள்"],
+  search: ["Search tomato, brinjal, okra", "தக்காளி, கத்திரி, வெண்டை தேடுக"],
+  within: ["Within", "சுற்றளவு"],
+  all: ["All", "அனைத்தும்"], fixed: ["Fixed price", "நிலையான விலை"], auction: ["Auction", "ஏலம்"], nego: ["Negotiate", "பேரம்"],
+  delivery: ["Delivery", "டெலிவரி"], pickup: ["Pickup", "நேரில் பெறுதல்"],
+  map: ["Map", "வரைபடம்"], list: ["List", "பட்டியல்"],
+  nearYou: ["listings near you", "அருகிலுள்ள பட்டியல்கள்"],
+  approxAreas: ["Farm areas are approximate", "பண்ணை இடங்கள் தோராயமானவை"],
+  perUnit: ["per", "ஒரு"], asking: ["asking", "கேட்கும் விலை"], topBid: ["Top bid", "அதிக ஏலம்"], startBid: ["Start bid", "தொடக்க ஏலம்"],
+  left: ["left", "மீதம்"], noResults: ["No listings match. Try a wider distance.", "பொருந்தும் பட்டியல் இல்லை. தூரத்தை அதிகரிக்கவும்."],
+  km: ["km", "கி.மீ"], about: ["About", "சுமார்"], away: ["away", "தொலைவில்"],
+  verified: ["Verified", "சரிபார்க்கப்பட்டது"], level: ["Level", "நிலை"], trustLevel: ["Trust level", "நம்பக நிலை"], cleanSales: ["Clean sales", "சுத்தமான விற்பனை"], reviews: ["reviews", "மதிப்புரைகள்"],
+  available: ["Available", "கிடைப்பது"], lot: ["Lot size", "மொத்த அளவு"], harvest: ["Harvest note", "அறுவடை குறிப்பு"],
+  howGet: ["How do you want it?", "எப்படிப் பெற விரும்புகிறீர்கள்?"],
+  quantity: ["Quantity", "அளவு"], total: ["Total", "மொத்தம்"], deliveryCharge: ["Delivery charge", "டெலிவரி கட்டணம்"],
+  placeOrder: ["Place order", "ஆர்டர் செய்"], payCash: ["Pay the farmer in cash at pickup or delivery.", "பெறும்போது விவசாயிக்கு பணமாகச் செலுத்தவும்."],
+  privOrder: ["The farmer's exact location and phone are shared after they confirm your order.", "விவசாயி உங்கள் ஆர்டரை உறுதி செய்த பிறகே சரியான இடமும் தொலைபேசியும் பகிரப்படும்."],
+  endsIn: ["Ends in", "முடிய"], ended: ["Ended", "முடிந்தது"], bidsCount: ["bids", "ஏலங்கள்"],
+  yourBid: ["Your bid per", "உங்கள் ஏலம் / ஒரு"], minBid: ["Minimum next bid", "அடுத்த குறைந்தபட்ச ஏலம்"], placeBid: ["Place bid", "ஏலம் வை"],
+  buyNow: ["Buy now for", "இப்போதே வாங்கு"], winRule: ["If you win, you have 2 hours to confirm. After that it passes to the next bidder.", "நீங்கள் வென்றால், உறுதி செய்ய 2 மணி நேரம் உண்டு. இல்லையெனில் அடுத்த ஏலதாரருக்குச் செல்லும்."],
+  bidHistory: ["Bid history", "ஏல வரலாறு"], you: ["You", "நீங்கள்"], bidTooLow: ["Bid must be at least", "ஏலம் குறைந்தது இருக்க வேண்டும்"], bidPlaced: ["Bid placed. You are the top bidder.", "ஏலம் வைக்கப்பட்டது. நீங்கள் முதலிடத்தில் உள்ளீர்கள்."],
+  yourOffer: ["Your offer per", "உங்கள் விலை / ஒரு"], sendOffer: ["Send offer", "விலையை அனுப்பு"], offerSent: ["Offer sent to the farmer", "விலை விவசாயிக்கு அனுப்பப்பட்டது"],
+  offerPending: ["Waiting for the farmer", "விவசாயியின் பதிலுக்குக் காத்திருக்கிறது"], offerAccepted: ["Accepted", "ஏற்கப்பட்டது"], offerRejected: ["Declined", "நிராகரிக்கப்பட்டது"], countered: ["Counter offer", "எதிர் விலை"],
+  acceptCounter: ["Accept", "ஏற்கவும்"], decline: ["Decline", "நிராகரி"], counter: ["Counter", "எதிர் விலை"], accept: ["Accept", "ஏற்கவும்"],
+  ownListing: ["This is your listing.", "இது உங்கள் பட்டியல்."],
+  soldOut: ["Sold out", "விற்றுத் தீர்ந்தது"], closed: ["Closed", "மூடப்பட்டது"],
+  myBids: ["My bids and offers", "எனது ஏலங்களும் விலைகளும்"], auctions: ["Auctions", "ஏலங்கள்"], negotiations: ["Offers", "பேரங்கள்"],
+  leading: ["You're leading", "நீங்கள் முன்னிலையில்"], outbid: ["Outbid", "முந்தப்பட்டீர்கள்"], won: ["You won", "நீங்கள் வென்றீர்கள்"], lost: ["Not won", "வெல்லவில்லை"],
+  confirmIn: ["Confirm within", "உறுதி செய்ய மீதம்"], confirmBuy: ["Confirm purchase", "வாங்குதலை உறுதி செய்"], letGo: ["Let it go", "விட்டுவிடு"],
+  orderMade: ["Order created", "ஆர்டர் உருவானது"], noBids: ["You haven't bid or made offers yet.", "நீங்கள் இன்னும் ஏலம் அல்லது விலை வைக்கவில்லை."],
+  myOrders: ["My orders", "எனது ஆர்டர்கள்"], noOrders: ["No orders yet.", "இதுவரை ஆர்டர்கள் இல்லை."],
+  st_placed: ["Waiting for farmer", "விவசாயிக்காகக் காத்திருக்கிறது"], st_new: ["New order", "புதிய ஆர்டர்"], st_confirmed: ["Confirmed", "உறுதி செய்யப்பட்டது"], st_ready: ["Ready", "தயார்"], st_completed: ["Completed", "முடிந்தது"], st_cancelled: ["Cancelled", "ரத்து"],
+  tl_placed: ["Order placed", "ஆர்டர் செய்யப்பட்டது"], tl_confirmed: ["Farmer confirmed", "விவசாயி உறுதி செய்தார்"], tl_ready: ["Ready for pickup / delivery", "பெறத் தயார்"], tl_completed: ["Received", "பெறப்பட்டது"],
+  order: ["Order", "ஆர்டர்"], contact: ["Contact", "தொடர்பு"], call: ["Call", "அழை"], exactLoc: ["Exact farm location", "சரியான பண்ணை இடம்"],
+  hiddenContact: ["Phone and exact location appear here once the farmer confirms.", "விவசாயி உறுதி செய்ததும் தொலைபேசியும் இடமும் இங்கே தோன்றும்."],
+  cancelOrder: ["Cancel order", "ஆர்டரை ரத்து செய்"], received: ["I received it", "பெற்றுக்கொண்டேன்"], report: ["Report a problem", "சிக்கலைப் புகாரளி"],
+  reported: ["Problem reported. This sale won't count toward the farmer's trust level.", "புகார் பதிவு செய்யப்பட்டது. இந்த விற்பனை நம்பக நிலைக்குக் கணக்கிடப்படாது."],
+  disputed: ["Disputed", "புகாரில் உள்ளது"], rate: ["Rate the farmer", "விவசாயியை மதிப்பிடுங்கள்"], rated: ["Thanks for your review", "உங்கள் மதிப்புரைக்கு நன்றி"],
+  howWas: ["How was your order?", "உங்கள் ஆர்டர் எப்படி இருந்தது?"], wentWell: ["What went well?", "எது நன்றாக இருந்தது?"],
+  tag_fresh: ["Fresh", "புதியது"], tag_price: ["Fair price", "நியாய விலை"], tag_time: ["On time", "சரியான நேரம்"], tag_pack: ["Good packing", "நல்ல பேக்கிங்"], tag_friendly: ["Friendly", "அன்பானவர்"],
+  comment: ["Comment (optional)", "கருத்து (விருப்பம்)"], submitReview: ["Submit review", "மதிப்புரையைச் சமர்ப்பி"], skip: ["Skip for now", "இப்போது வேண்டாம்"],
+  farmer: ["Farmer", "விவசாயி"], onSale: ["On sale now", "இப்போது விற்பனையில்"], recentReviews: ["Recent reviews", "சமீபத்திய மதிப்புரைகள்"],
+  starsVsLevel: ["Stars are what buyers say. Trust level goes up by one for every 10 completed sales without a dispute.", "நட்சத்திரங்கள் வாங்குபவர்களின் கருத்து. புகார் இல்லாத ஒவ்வொரு 10 விற்பனைக்கும் நம்பக நிலை ஒன்று உயரும்."],
+  noReviews: ["No reviews yet.", "இதுவரை மதிப்புரைகள் இல்லை."], since: ["selling since", "விற்பனை தொடக்கம்"],
+  noAlerts: ["You're all caught up.", "புதிய அறிவிப்புகள் இல்லை."], markRead: ["Mark all read", "அனைத்தையும் படித்ததாக்கு"],
+  language: ["Language", "மொழி"], appLang: ["App language", "ஆப் மொழி"], mode: ["I'm using the app as", "நான் பயன்படுத்துவது"], buyer: ["Buyer", "வாங்குபவர்"],
+  yourPrivacy: ["Your privacy", "உங்கள் தனியுரிமை"], privLoc: ["Your location", "உங்கள் இருப்பிடம்"], privLocD: ["Used only to sort farms by distance. It is not saved to your profile.", "தூரத்தின்படி வரிசைப்படுத்த மட்டுமே. உங்கள் சுயவிவரத்தில் சேமிக்கப்படாது."],
+  privPhone: ["Your phone number", "உங்கள் கைபேசி எண்"], privPhoneD: ["Shown to the other person only after an order is confirmed.", "ஆர்டர் உறுதியான பிறகே மற்றவருக்குக் காட்டப்படும்."],
+  privPerm: ["App permissions", "ஆப் அனுமதிகள்"], privPermD: ["This version asks for no permissions at all. Your data stays on this phone.", "இந்தப் பதிப்பு எந்த அனுமதியும் கேட்காது. உங்கள் தரவு இந்தக் கைபேசியிலேயே இருக்கும்."],
+  account: ["Account", "கணக்கு"], signout: ["Sign out", "வெளியேறு"], resetDemo: ["Reset demo data", "டெமோ தரவை மீட்டமை"], deleteAll: ["Delete my account and data", "எனது கணக்கையும் தரவையும் நீக்கு"],
+  confirmDelete: ["Delete everything on this phone? This can't be undone.", "இந்தக் கைபேசியில் உள்ள அனைத்தையும் நீக்கவா? மீட்க முடியாது."],
+  confirmReset: ["Start the demo again with fresh sample data?", "புதிய மாதிரி தரவுடன் டெமோவை மீண்டும் தொடங்கவா?"],
+  yes: ["Yes", "ஆம்"], no: ["No", "இல்லை"], cancel: ["Cancel", "ரத்து"], save: ["Save", "சேமி"],
+  myFarm: ["My farm", "எனது பண்ணை"], editPin: ["Move farm pin", "பண்ணை இடத்தை மாற்று"], getVerified: ["Get verified badge", "சரிபார்ப்பு பேட்ஜ் பெறுக"], verifyPending: ["Verification requested", "சரிபார்ப்பு கோரப்பட்டது"],
+  verifyHint: ["Optional. Our team checks your farm and adds the Verified badge.", "விருப்பத்திற்குரியது. எங்கள் குழு சரிபார்த்து பேட்ஜ் சேர்க்கும்."],
+  hello: ["Hello", "வணக்கம்"], nextLevel: ["more clean sales to reach Level", "சுத்தமான விற்பனைகள், அடுத்த நிலை"],
+  activeListings: ["Active listings", "செயலில் உள்ளவை"], pendingOffers: ["Bids and offers", "ஏலங்கள், விலைகள்"], toConfirm: ["Orders to act on", "கவனிக்க வேண்டிய ஆர்டர்கள்"],
+  myListings: ["My listings", "எனது பட்டியல்கள்"], noListings: ["You haven't listed anything yet. Add your first harvest.", "நீங்கள் இன்னும் எதையும் பட்டியலிடவில்லை. உங்கள் முதல் அறுவடையைச் சேர்க்கவும்."],
+  addListing: ["Add listing", "பட்டியல் சேர்"], whatSell: ["What are you selling?", "என்ன விற்கிறீர்கள்?"], unit: ["Unit", "அலகு"],
+  howSell: ["How do you want to sell?", "எப்படி விற்க விரும்புகிறீர்கள்?"],
+  fixedD: ["Buyers order at your price.", "உங்கள் விலையில் வாங்குபவர்கள் ஆர்டர் செய்வார்கள்."], auctionD: ["Buyers bid until the time ends. Highest bid wins.", "நேரம் முடியும் வரை ஏலம். அதிக ஏலம் வெல்லும்."], negoD: ["Buyers send offers. You accept, decline or counter.", "வாங்குபவர்கள் விலை அனுப்புவார்கள். நீங்கள் ஏற்கலாம், நிராகரிக்கலாம், எதிர் விலை சொல்லலாம்."],
+  price: ["Price per", "விலை / ஒரு"], askPrice: ["Asking price per", "கேட்கும் விலை / ஒரு"], startBidPer: ["Starting bid per", "தொடக்க ஏலம் / ஒரு"], minInc: ["Minimum raise", "குறைந்தபட்ச உயர்வு"],
+  duration: ["Auction duration", "ஏல நேரம்"], buyNowOpt: ["Buy-now price (optional)", "உடனடி வாங்கும் விலை (விருப்பம்)"], reserveOpt: ["Reserve price (optional, private)", "குறைந்தபட்ச விலை (விருப்பம், ரகசியம்)"],
+  reserveHint: ["If bidding stays below this, the lot is not sold. Buyers never see it.", "ஏலம் இதைவிடக் குறைவாக இருந்தால் விற்கப்படாது. வாங்குபவர்கள் இதைப் பார்க்க மாட்டார்கள்."],
+  offerDelivery: ["I can deliver", "என்னால் டெலிவரி செய்ய முடியும்"], offerDeliveryD: ["Pickup is always available.", "நேரில் பெறுதல் எப்போதும் உண்டு."], charge: ["Delivery charge (₹)", "டெலிவரி கட்டணம் (₹)"], maxKm: ["Up to (km)", "அதிகபட்சம் (கி.மீ)"],
+  notePh: ["e.g. Picked this morning, no pesticide", "எ.கா. இன்று காலை பறித்தது, பூச்சிக்கொல்லி இல்லை"],
+  publish: ["Publish listing", "பட்டியலை வெளியிடு"], published: ["Listing published", "பட்டியல் வெளியிடப்பட்டது"], fillAll: ["Choose a vegetable and fill quantity and price", "காய்கறியைத் தேர்ந்தெடுத்து அளவு, விலையை நிரப்பவும்"],
+  closeListing: ["Close listing", "பட்டியலை மூடு"], view: ["View", "பார்"],
+  bidsOffers: ["Bids and offers", "ஏலங்களும் விலைகளும்"], noOffers: ["No bids or offers yet. They'll appear here.", "இன்னும் ஏலம் அல்லது விலை இல்லை."],
+  topBidder: ["Top bidder", "முதல் ஏலதாரர்"], waitingWinner: ["Waiting for winner to confirm", "வென்றவர் உறுதி செய்யக் காத்திருக்கிறது"],
+  counterPrice: ["Your counter price per", "உங்கள் எதிர் விலை / ஒரு"], sendCounter: ["Send counter", "எதிர் விலை அனுப்பு"],
+  confirm: ["Confirm", "உறுதி செய்"], reject: ["Reject", "நிராகரி"], markReady: ["Mark ready", "தயார் எனக் குறி"], handedOver: ["Handed over", "ஒப்படைக்கப்பட்டது"],
+  buyerLbl: ["Buyer", "வாங்குபவர்"], deliverTo: ["Deliver to", "டெலிவரி முகவரி"], fromAuction: ["Won in auction", "ஏலத்தில் வென்றது"], fromOffer: ["Agreed offer", "ஒப்புக்கொண்ட விலை"],
+  confirmWithin2: ["Confirm within 2 hours, or the buyer is free to cancel.", "2 மணி நேரத்தில் உறுதி செய்யவும்."],
+  demoBanner: ["Demo: other buyers and farmers are simulated on this phone.", "டெமோ: மற்ற வாங்குபவர்களும் விவசாயிகளும் இந்தக் கைபேசியில் உருவகப்படுத்தப்பட்டவர்கள்."],
+  version: ["Version", "பதிப்பு"],
+  n_outbid: ["You were outbid on", "உங்களை முந்தி ஏலம் வைக்கப்பட்டது:"], n_won: ["You won the auction for", "நீங்கள் ஏலத்தில் வென்றீர்கள்:"], n_confirmed: ["confirmed your order", "உங்கள் ஆர்டரை உறுதி செய்தார்"],
+  n_ready: ["Your order is ready:", "உங்கள் ஆர்டர் தயார்:"], n_offerAcc: ["accepted your offer for", "உங்கள் விலையை ஏற்றார்:"], n_offerRej: ["declined your offer for", "உங்கள் விலையை நிராகரித்தார்:"], n_offerCtr: ["sent a counter offer for", "எதிர் விலை அனுப்பினார்:"],
+  n_newBid: ["New bid on your", "உங்கள் பட்டியலில் புதிய ஏலம்:"], n_newOffer: ["New offer on your", "புதிய விலை:"], n_newOrder: ["New order for your", "புதிய ஆர்டர்:"], n_winConf: ["The auction winner confirmed:", "ஏல வெற்றியாளர் உறுதி செய்தார்:"],
+  n_unsold: ["Auction ended without a sale:", "ஏலம் விற்பனையின்றி முடிந்தது:"], n_level: ["You reached trust Level", "நீங்கள் அடைந்த நம்பக நிலை"], n_verified: ["Your farm is now Verified", "உங்கள் பண்ணை இப்போது சரிபார்க்கப்பட்டது"],
+  n_passed: ["The winner didn't confirm in 2 hours. Offered to the next bidder:", "வென்றவர் 2 மணி நேரத்தில் உறுதி செய்யவில்லை. அடுத்தவருக்கு:"], n_review: ["left you a review", "மதிப்புரை அளித்தார்"], n_ctrAcc: ["accepted your counter for", "உங்கள் எதிர் விலையை ஏற்றார்:"], n_ctrRej: ["declined your counter for", "உங்கள் எதிர் விலையை நிராகரித்தார்:"],
+  n_newListings: ["New listings near you", "அருகில் புதிய பட்டியல்கள்"], n_wonPassed: ["You didn't confirm in time:", "நேரத்தில் உறுதி செய்யவில்லை:"]
+};
+function t(k) { var v = TX[k]; return v ? v[st && st.lang === "ta" ? 1 : 0] : k; }
+
+var VEG = {
+  tomato: ["🍅", "#F9DDD7", "Tomato", "தக்காளி"], brinjal: ["🍆", "#E6D9EF", "Brinjal", "கத்திரிக்காய்"],
+  okra: ["🫛", "#E1EFD6", "Okra", "வெண்டைக்காய்"], onion: ["🧅", "#F6E3EA", "Small onion", "சின்ன வெங்காயம்"],
+  carrot: ["🥕", "#FCE5CF", "Carrot", "கேரட்"], potato: ["🥔", "#F1E6D3", "Potato", "உருளைக்கிழங்கு"],
+  chilli: ["🌶️", "#F9DDD7", "Green chilli", "பச்சை மிளகாய்"], spinach: ["🥬", "#DDEFD9", "Keerai (greens)", "கீரை"],
+  cucumber: ["🥒", "#E1EFD6", "Cucumber", "வெள்ளரிக்காய்"], drumstick: ["🌿", "#E1EFD6", "Drumstick", "முருங்கைக்காய்"],
+  banana: ["🍌", "#FBF0C9", "Banana", "வாழைப்பழம்"], coconut: ["🥥", "#EDE3D6", "Coconut", "தேங்காய்"],
+  beans: ["🫘", "#E6EED9", "Beans", "பீன்ஸ்"], corn: ["🌽", "#FBF0C9", "Sweet corn", "மக்காச்சோளம்"],
+  mango: ["🥭", "#FCE8C4", "Mango", "மாம்பழம்"], garlic: ["🧄", "#EFEDE6", "Garlic", "பூண்டு"]
+};
+var UNITS = { kg: ["kg", "கிலோ"], bunch: ["bunch", "கட்டு"], piece: ["piece", "எண்ணம்"], dozen: ["dozen", "டஜன்"], quintal: ["quintal", "குவிண்டால்"], tonne: ["tonne", "டன்"] };
+VEG.paddy = ["🌾", "#F3EBC9", "Paddy / rice", "நெல்"];
+VEG.groundnut = ["🥜", "#F1E6D3", "Groundnut", "நிலக்கடலை"];
+var QUICK = ["tomato", "brinjal", "okra", "onion", "carrot", "potato", "chilli", "spinach", "cucumber", "drumstick", "beans", "corn", "banana", "mango", "coconut", "garlic", "paddy", "groundnut"];
+var UEMO = ["🌱", "🥬", "🥕", "🍎", "🌼", "🌿", "🫘", "🌾", "🥥", "🍯", "🥚", "🥛"];
+function registerCrops() {
+  CROPS.forEach(function (g) { g.subs.forEach(function (s) { s.items.forEach(function (it) { if (!VEG[it.id]) VEG[it.id] = [it.e, g.bg, it.n, it.n]; }); }); });
+  (st.custom || []).forEach(function (c) { VEG[c.id] = [c.e, "#E8ECE4", c.n, c.n]; });
+}
+function vn(k) { var v = VEG[k]; return v ? v[st.lang === "ta" ? 3 : 2] : k; }
+function un(k) { var u = UNITS[k]; return u ? u[st.lang === "ta" ? 1 : 0] : k; }
+
+var BUYERS = ["Priya S.", "Karthik R.", "Anitha M.", "Ravi K.", "Meena P.", "Suresh V.", "Divya N.", "Arun B."];
+var ADDR = ["12, Gandhi Street, RS Puram", "4/18, Bharathi Nagar, Vadavalli", "27, Temple Road, Saibaba Colony", "9, Lake View, Peelamedu"];
+
+/* ------------------------------------------------------------ state */
+var st = null, UI = { q: "", radius: 10, mode: "all", deliv: false, view: "map", qty: 1, method: "pickup", stars: 0, tags: [], otpSent: false, draft: null, pin: null };
+function now() { return Date.now(); }
+function uid() { return now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function rnd(a, b) { return Math.floor(a + Math.random() * (b - a + 1)); }
+function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+function money(n) { return "₹" + Math.round(n).toLocaleString("en-IN"); }
+
+function seedFarmers() {
+  return [
+    { id: "f1", name: "Murugan Farm", village: "Thondamuthur", x: 1.8, y: -1.6, verified: true, clean: 34, rs: 179, rc: 38, phone: "98431 20457", since: 2026 },
+    { id: "f2", name: "Selvi Farm", village: "Perur", x: -2.4, y: 1.9, verified: false, clean: 21, rs: 99, rc: 22, phone: "94420 88310", since: 2026 },
+    { id: "f3", name: "Anbu Farm", village: "Vadavalli", x: 3.9, y: 2.8, verified: true, clean: 52, rs: 299, rc: 61, phone: "99940 12873", since: 2026 },
+    { id: "f4", name: "Kumar Farm", village: "Madampatti", x: -4.8, y: -3.9, verified: false, clean: 12, rs: 66, rc: 15, phone: "90031 55602", since: 2026 },
+    { id: "f5", name: "Lakshmi Organic", village: "Kalampalayam", x: 6.5, y: -5.2, verified: true, clean: 8, rs: 43, rc: 9, phone: "97895 44019", since: 2026 },
+    { id: "f6", name: "Raja Gardens", village: "Narasipuram", x: -9.1, y: 7.4, verified: false, clean: 27, rs: 126, rc: 30, phone: "98652 70144", since: 2026 }
+  ];
+}
+var TEMPLATES = [
+  ["f1", "tomato", "fixed", { price: 40, qty: 80, unit: "kg", del: [20, 5], note: "Country tomatoes, picked this morning" }],
+  ["f2", "brinjal", "nego", { price: 35, qty: 35, unit: "kg", note: "Purple brinjal, small size" }],
+  ["f3", "okra", "auction", { start: 40, top: 52, nb: 7, mins: 102, inc: 2, buyNow: 70, qty: 40, unit: "kg", note: "Tender okra, no pesticide" }],
+  ["f4", "onion", "fixed", { price: 60, qty: 120, unit: "kg" }],
+  ["f5", "spinach", "fixed", { price: 15, qty: 60, unit: "bunch", del: [15, 4], note: "Arai keerai and siru keerai" }],
+  ["f6", "carrot", "auction", { start: 30, top: 34, nb: 2, mins: 5, inc: 1, qty: 25, unit: "kg", note: "Short auction: ends in a few minutes" }],
+  ["f1", "chilli", "nego", { price: 70, qty: 20, unit: "kg" }],
+  ["f3", "drumstick", "fixed", { price: 8, qty: 200, unit: "piece", del: [25, 6] }],
+  ["f2", "coconut", "auction", { start: 18, top: 22, nb: 4, mins: 190, inc: 1, qty: 100, unit: "piece", note: "Fresh coconuts from our grove" }],
+  ["f6", "potato", "fixed", { price: 32, qty: 150, unit: "kg" }],
+  ["f4", "banana", "nego", { price: 55, qty: 30, unit: "dozen", note: "Poovan banana" }],
+  ["f5", "beans", "auction", { start: 45, top: 48, nb: 3, mins: 75, inc: 2, qty: 30, unit: "kg", buyNow: 65 }]
+];
+function makeListing(tp) {
+  var o = tp[3], l = {
+    id: uid(), fid: tp[0], veg: tp[1], mode: tp[2], qty: o.qty, unit: o.unit, note: o.note || "", created: now(), status: "active",
+    del: o.del ? { on: true, charge: o.del[0], km: o.del[1] } : { on: false, charge: 0, km: 0 }, bids: [], offers: []
+  };
+  if (l.mode === "fixed" || l.mode === "nego") l.price = o.price;
+  if (l.mode === "auction") {
+    l.start = o.start; l.inc = o.inc; l.buyNow = o.buyNow || 0; l.reserve = 0; l.ends = now() + o.mins * MIN;
+    for (var i = 0; i < o.nb; i++) { var a = o.nb === 1 ? o.top : Math.round(o.start + (o.top - o.start) * i / (o.nb - 1)); l.bids.push({ by: "sim", name: BUYERS[(i + o.start) % BUYERS.length], amount: a, at: now() - (o.nb - i) * 7 * MIN }); }
+  }
+  return l;
+}
+function seed(keepUser) {
+  var old = st;
+  st = { v: 1, lang: old ? old.lang : "en", role: null, user: null, farm: null, custom: [], farmers: seedFarmers(), listings: [], orders: [], notes: [], events: [], reviews: [], made: now() };
+  if (APP === "buyer") TEMPLATES.forEach(function (tp) { st.listings.push(makeListing(tp)); });
+  st.reviews.push({ fid: "f1", name: "Priya S.", stars: 5, text: "Very fresh tomatoes and ready on time.", at: now() - 3 * 24 * HOUR });
+  st.reviews.push({ fid: "f3", name: "Ravi K.", stars: 5, text: "Okra was tender. Packed well.", at: now() - 5 * 24 * HOUR });
+  st.reviews.push({ fid: "f2", name: "Meena P.", stars: 4, text: "Good price after a little bargaining.", at: now() - 2 * 24 * HOUR });
+  if (keepUser && old) { st.user = old.user; st.role = old.user ? APP : null; }
+  save();
+}
+function load() {
+  try { var s = localStorage.getItem(KEY); if (s) { st = JSON.parse(s); if (st.user) st.role = APP; if (!st.custom) st.custom = []; return; } } catch (e) {}
+  seed();
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+
+/* ------------------------------------------------------------ helpers */
+function farmerOf(fid) {
+  if (fid === "me") { var f = st.farm || {}; return { id: "me", name: f.name || "My farm", village: f.village || "", x: f.x || 0, y: f.y || 0, verified: !!f.verified, clean: f.clean || 0, rs: f.rs || 0, rc: f.rc || 0, phone: st.user ? st.user.phone : "", since: 2026 }; }
+  for (var i = 0; i < st.farmers.length; i++) if (st.farmers[i].id === fid) return st.farmers[i];
+  return { id: fid, name: "Farm", village: "", x: 0, y: 0, clean: 0, rs: 0, rc: 0 };
+}
+function L(id) { for (var i = 0; i < st.listings.length; i++) if (st.listings[i].id === id) return st.listings[i]; return null; }
+function O(id) { for (var i = 0; i < st.orders.length; i++) if (st.orders[i].id === id) return st.orders[i]; return null; }
+function level(c) { return Math.floor((c || 0) / 10); }
+function rating(f) { return f.rc ? (f.rs / f.rc).toFixed(1) : "–"; }
+function dist(f) { var fx = f.x + ((f.id.charCodeAt(f.id.length - 1) % 7) - 3) * 0.06, fy = f.y + ((f.id.length % 5) - 2) * 0.06; return Math.max(0.3, Math.hypot(fx, fy)); }
+function kmTxt(f) { return dist(f).toFixed(1) + " " + t("km"); }
+function topBid(l) { var b = null; l.bids.forEach(function (x) { if (!b || x.amount > b.amount) b = x; }); return b; }
+function winBid(l) { return l.bids.filter(function (x) { return (x.by === "me" ? "me" : x.name) === l.winner; }).sort(function (a, b) { return b.amount - a.amount; })[0] || topBid(l); }
+function minNext(l) { var b = topBid(l); return b ? b.amount + l.inc : l.start; }
+function left(ms) {
+  if (ms <= 0) return t("ended");
+  var s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), ss = s % 60;
+  return h > 0 ? h + "h " + m + "m" : m + "m " + (ss < 10 ? "0" : "") + ss + "s";
+}
+function ago(ts) {
+  var s = Math.floor((now() - ts) / 1000);
+  if (s < 60) return st.lang === "ta" ? "இப்போது" : "just now";
+  if (s < 3600) return Math.floor(s / 60) + (st.lang === "ta" ? " நி. முன்" : " min ago");
+  if (s < 86400) return Math.floor(s / 3600) + (st.lang === "ta" ? " ம. முன்" : " h ago");
+  return Math.floor(s / 86400) + (st.lang === "ta" ? " நாள் முன்" : " d ago");
+}
+function modePill(m) { return m === "fixed" ? '<span class="pill p-g">' + t("fixed") + "</span>" : m === "auction" ? '<span class="pill p-a">' + t("auction") + "</span>" : '<span class="pill p-b">' + t("nego") + "</span>"; }
+function icon(n, st2) { return '<svg class="ic"' + (st2 ? ' style="' + st2 + '"' : "") + ' aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+function tile(veg, size) { var v = VEG[veg] || ["🥗", "#E8ECE4"]; size = size || 64; return '<div class="tile" style="width:' + size + "px;height:" + size + "px;background:" + v[1] + ";font-size:" + Math.round(size * 0.56) + 'px">' + v[0] + "</div>"; }
+function note(role, text, link) { st.notes.unshift({ id: uid(), role: role, text: text, link: link || "", at: now(), read: false }); if (st.notes.length > 80) st.notes.length = 80; if (role === st.role) toast(text); }
+function sched(type, delay, data) { st.events.push({ at: now() + delay, type: type, data: data || {} }); }
+function unread() { var n = 0; st.notes.forEach(function (x) { if (!x.read && x.role === st.role) n++; }); return n; }
+var tt = null;
+function toast(msg) { var el = document.getElementById("toast"); el.textContent = msg; el.className = "on"; clearTimeout(tt); tt = setTimeout(function () { el.className = ""; }, 2600); }
+function stars(r) { return '<span style="color:#E08A00">★</span> ' + r; }
+function firstName() { return st.user ? st.user.name.split(" ")[0] : ""; }
+
+/* ------------------------------------------------------------ routing */
+function go(h, replace) { if (replace) location.replace("#" + h); else location.hash = h; }
+function back() { if (history.length > 1) history.back(); else go(st.role === "farmer" ? "f-home" : "explore", true); }
+window.addEventListener("hashchange", function () { UI.pinEdit = false; if ((location.hash || "").indexOf("#cam") !== 0) stopCam(); closeSheet(); render(); window.scrollTo(0, 0); });
+
+function nav(active) {
+  var items = st.role === "farmer"
+    ? [["f-home", "home", t("home")], ["f-add", "plus", t("add")], ["f-offers", "bids", t("offers")], ["f-orders", "orders", t("orders")], ["profile", "user", t("profile")]]
+    : [["explore", "explore", t("explore")], ["bids", "bids", t("bids")], ["orders", "orders", t("orders")], ["alerts", "bell", t("alerts")], ["profile", "user", t("profile")]];
+  var badge = { };
+  if (st.role === "farmer") { var n = farmerPending(); if (n.offers) badge["f-offers"] = n.offers; if (n.orders) badge["f-orders"] = n.orders; }
+  else { var u = unread(); if (u) badge.alerts = u; }
+  return '<nav class="nav">' + items.map(function (it) {
+    return '<button class="' + (it[0] === active ? "on" : "") + '" onclick="go(\'' + it[0] + '\',true)">' + icon(it[1]) + it[2] + (badge[it[0]] ? '<span class="badge">' + badge[it[0]] + "</span>" : "") + "</button>";
+  }).join("") + "</nav>";
+}
+function topbar(title, backBtn, right) {
+  return '<div class="top">' + (backBtn ? '<button class="ib" aria-label="Back" onclick="back()">' + icon("back") + "</button>" : "") + "<h1>" + title + "</h1>" + (right || "") + "</div>";
+}
+
+function render(keepScroll) {
+  var y = window.scrollY;
+  var h = (location.hash || "").slice(1), parts = h.split("/"), r = parts[0], id = parts[1];
+  var app = document.getElementById("app"), html = "", navOn = true;
+  if (!st.user && ["welcome", "login"].indexOf(r) < 0) { go("welcome", true); return; }
+  if (st.user && st.role !== APP) st.role = APP;
+  if (st.role === "farmer" && !st.farm && r !== "farm-setup" && r !== "profile") { go("farm-setup", true); return; }
+  if (!r) { go(st.role === "farmer" ? "f-home" : "explore", true); return; }
+  var V = {
+    welcome: vWelcome, login: vLogin, "farm-setup": vFarmSetup, explore: vExplore, listing: vListing, bids: vBids, orders: vOrders, order: vOrder,
+    review: vReview, farmer: vFarmer, alerts: vAlerts, profile: vProfile, "f-home": vFHome, "f-add": vFAdd, "f-offers": vFOffers, "f-orders": vFOrders, "f-pin": vFPin, "f-crops": vFCrops, "f-edit": vFEdit, cam: vCam, trim: vTrim, play: vPlay, view: vView
+  }[r];
+  if (!V) { go(st.role === "farmer" ? "f-home" : "explore", true); return; }
+  var out = V(id, parts[2]);
+  html = out[0]; navOn = out[1] !== false;
+  app.className = navOn ? "" : "nonav";
+  app.innerHTML = html + (navOn ? nav(out[2] || r) : "");
+  if (keepScroll) window.scrollTo(0, y);
+  var gl = document.getElementById("gal"); if (gl && UI.gpos && UI.gpos.h === location.hash && UI.gpos.n) { gl.style.scrollBehavior = "auto"; gl.scrollLeft = UI.gpos.n * gl.clientWidth; galScroll(gl); }
+  if (out[3]) out[3]();
+}
+
+/* ------------------------------------------------------------ onboarding */
+function vWelcome() {
+  return ['<div class="wrap" style="padding-top:64px;text-align:center">' +
+    (APP === "farmer" ? '<div class="logo" style="background:#B8690A">👨‍🌾</div>' : '<div class="logo">🌱</div>') + '<h1 style="font-size:28px;font-weight:800;margin-top:18px;color:#1F5C2A">FarmersDelight</h1>' +
+    (APP === "farmer" ? '<div class="mt8"><span class="pill p-a" style="font-size:13px;height:28px;padding:0 14px">' + t("farmerApp") + "</span></div>" : "") +
+    '<p class="muted" style="margin:10px 20px 0;font-size:15px">' + t(APP === "farmer" ? "taglineF" : "tagline") + "</p>" +
+    '<div class="lab" style="text-align:left;margin-top:44px">' + t("chooseLang") + "</div>" +
+    '<div class="seg"><button class="' + (st.lang === "en" ? "on" : "") + '" onclick="setLang(\'en\')">English</button><button class="' + (st.lang === "ta" ? "on" : "") + '" onclick="setLang(\'ta\')">தமிழ்</button></div>' +
+    '<p class="hint" style="text-align:left">Telugu, Kannada, Malayalam, Hindi — coming soon</p>' +
+    '<button class="btn mt16" style="margin-top:28px" onclick="go(\'login\')">' + t("cont") + "</button></div>", false];
+}
+function setLang(l) { st.lang = l; save(); render(true); }
+function vLogin() {
+  var u = UI.login || { name: "", phone: "" };
+  return [topbar(t("signin"), true) + '<div class="wrap">' +
+    '<label class="flab" for="nm">' + t("yourName") + '</label><input id="nm" class="fld" autocomplete="name" value="' + esc(u.name) + '" oninput="UI.login=UI.login||{};UI.login.name=this.value">' +
+    '<label class="flab" for="ph">' + t("mobile") + '</label><div class="row" style="gap:8px"><div class="fld" style="width:72px;display:flex;align-items:center;justify-content:center">+91</div><input id="ph" class="fld" inputmode="numeric" maxlength="10" value="' + esc(u.phone) + '" oninput="this.value=this.value.replace(/\\D/g,\'\');UI.login=UI.login||{};UI.login.phone=this.value"></div>' +
+    (UI.otpSent
+      ? '<label class="flab" for="otp">' + t("enterOtp") + '</label><input id="otp" class="fld otp" inputmode="numeric" maxlength="4"><div class="note a mt8">' + icon("info") + "<span>" + t("demoOtp") + '</span></div><button class="btn mt16" onclick="doVerify()">' + t("verify") + "</button>"
+      : '<button class="btn mt16" onclick="sendOtp()">' + t("sendOtp") + "</button>") +
+    '<div class="note g mt16">' + icon("lock") + "<span>" + t("privLogin") + "</span></div></div>", false];
+}
+function sendOtp() {
+  var n = document.getElementById("nm").value.trim(), p = document.getElementById("ph").value.trim();
+  UI.login = { name: n, phone: p };
+  if (!n) return toast(t("badName"));
+  if (!/^[6-9]\d{9}$/.test(p)) return toast(t("badPhone"));
+  UI.otpSent = true; render(true);
+  setTimeout(function () { var o = document.getElementById("otp"); if (o) o.focus(); }, 50);
+}
+function doVerify() {
+  if (document.getElementById("otp").value !== "1234") return toast(t("badOtp"));
+  st.user = { name: UI.login.name, phone: UI.login.phone.slice(0, 5) + " " + UI.login.phone.slice(5) };
+  st.role = APP; UI.otpSent = false; save(); go(APP === "farmer" ? "farm-setup" : "explore", true);
+}
+function vRole() {
+  return ['<div class="wrap" style="padding-top:40px"><h1 style="font-size:24px;font-weight:800">' + t("hello") + ", " + esc(firstName()) + "</h1>" +
+    '<p class="muted mt8" style="margin-bottom:22px">' + t("howUse") + " " + t("canSwitch") + "</p>" +
+    '<button class="card rc" onclick="setRole(\'buyer\')"><span class="e" style="background:#F9DDD7">🧺</span><span class="mid"><span class="b" style="font-size:17px;display:block">' + t("iBuy") + '</span><span class="muted sm">' + t("iBuyD") + "</span></span>" + icon("chev", "color:#5C6A60") + "</button>" +
+    '<button class="card rc" onclick="setRole(\'farmer\')"><span class="e" style="background:#DDEFD9">👨‍🌾</span><span class="mid"><span class="b" style="font-size:17px;display:block">' + t("iSell") + '</span><span class="muted sm">' + t("iSellD") + "</span></span>" + icon("chev", "color:#5C6A60") + "</button>" +
+    '<div class="note b mt16">' + icon("info") + "<span>" + t("demoBanner") + "</span></div></div>", false];
+}
+function setRole(r) {
+  st.role = r; save();
+  if (r === "farmer" && !st.farm) go("farm-setup", true); else go(r === "farmer" ? "f-home" : "explore", true);
+}
+
+/* ------------------------------------------------------------ map */
+var R_MAP = 12;
+function mapBg() {
+  return '<div class="pk" style="left:5%;top:9%;width:30%;height:33%"></div><div class="pk" style="left:64%;top:62%;width:28%;height:36%"></div>' +
+    '<div class="wt" style="left:-8%;top:70%;width:48%;height:26%;transform:rotate(-12deg)"></div>' +
+    '<div class="rd" style="left:-3%;top:52%;width:106%;height:11px;transform:rotate(-6deg)"></div>' +
+    '<div class="rd" style="left:48%;top:-4%;width:11px;height:108%;transform:rotate(8deg)"></div>' +
+    '<div class="rd" style="left:-3%;top:22%;width:106%;height:7px;transform:rotate(14deg)"></div>' +
+    '<div class="rd" style="left:17%;top:-4%;width:7px;height:108%;transform:rotate(-10deg)"></div>' +
+    '<div class="rd" style="left:78%;top:-4%;width:6px;height:108%;transform:rotate(4deg)"></div>';
+}
+function pos(x, y, R) { R = R || R_MAP; return { l: Math.max(7, Math.min(93, 50 + (x / R) * 50)), t: Math.max(8, Math.min(92, 50 + (-y / R) * 50)) }; }
+
+/* ------------------------------------------------------------ buyer: explore */
+function visibleListings() {
+  var q = UI.q.trim().toLowerCase();
+  return st.listings.filter(function (l) {
+    if (l.status !== "active") return false;
+    if (l.mode === "auction" && l.ends <= now()) return false;
+    var f = farmerOf(l.fid);
+    if (dist(f) > UI.radius) return false;
+    if (UI.mode !== "all" && l.mode !== UI.mode) return false;
+    if (UI.deliv && !l.del.on) return false;
+    if (q) { var v = VEG[l.veg] || []; if ((v[2] + " " + v[3] + " " + f.name).toLowerCase().indexOf(q) < 0) return false; }
+    return true;
+  }).sort(function (a, b) { return dist(farmerOf(a.fid)) - dist(farmerOf(b.fid)); });
+}
+function priceBlock(l) {
+  if (l.mode === "fixed") return '<div class="v">' + money(l.price) + '</div><div class="sm muted">/' + un(l.unit) + "</div>";
+  if (l.mode === "nego") return '<div class="v">' + money(l.price) + '</div><div class="sm muted">' + t("asking") + "</div>";
+  var b = topBid(l);
+  return '<div class="sm muted">' + (b ? t("topBid") : t("startBid")) + '</div><div class="v">' + money(b ? b.amount : l.start) + '</div><div class="sm cd" data-end="' + l.ends + '">' + left(l.ends - now()) + "</div>";
+}
+function listingCard(l, link) {
+  var f = farmerOf(l.fid);
+  return '<button class="card lc" onclick="go(\'' + (link || "listing/" + l.id) + '\')">' + (l.fid === "me" ? coverTile(l, 64) : buyerThumb(l, 64)) +
+    '<span class="mid"><span class="nm ell" style="display:block">' + vn(l.veg) + '</span><span class="sm muted ell" style="display:block">' + esc(f.name) + " · " + kmTxt(f) + " · " + stars(rating(f)) + "</span>" +
+    '<span class="row" style="gap:6px;margin-top:6px;flex-wrap:wrap">' + modePill(l.mode) + (l.del.on ? '<span class="pill p-n">' + t("delivery") + "</span>" : "") + (l.fid === "me" ? '<span class="pill" style="background:#17231B;color:#fff">' + t("myFarm") + "</span>" : "") + ((l.fid === "me" ? l.reported : buyerReported(l)) ? '<span class="pill p-r">' + t("removedReported") + "</span>" : "") + "</span></span>" +
+    '<span class="pr">' + priceBlock(l) + "</span></button>";
+}
+function vExplore() {
+  var chips = '<div class="chips">' +
+    '<button class="chip on" onclick="cycleRadius()">' + t("within") + " " + UI.radius + " " + t("km") + "</button>" +
+    [["all", "all"], ["fixed", "fixed"], ["auction", "auction"], ["nego", "nego"]].map(function (m) { return '<button class="chip ' + (UI.mode === m[0] ? "on" : "") + '" onclick="UI.mode=\'' + m[0] + '\';render(true)">' + t(m[1]) + "</button>"; }).join("") +
+    '<button class="chip ' + (UI.deliv ? "on" : "") + '" onclick="UI.deliv=!UI.deliv;render(true)">' + icon("truck", "width:16px;height:16px;vertical-align:-3px") + " " + t("delivery") + "</button></div>";
+  var head = '<div class="top" style="padding-bottom:8px"><label class="fld row" style="gap:8px;color:#5C6A60;flex:1">' + icon("search") +
+    '<input type="search" id="q" placeholder="' + t("search") + '" value="' + esc(UI.q) + '" oninput="UI.q=this.value;drawResults()" style="border:0;background:none;outline:0;flex:1;min-width:0;font-weight:600"></label></div>';
+  return [head + chips + '<div id="res"></div>', true, "explore", drawResults];
+}
+function cycleRadius() { UI.radius = UI.radius === 5 ? 10 : UI.radius === 10 ? 25 : 5; render(true); }
+function drawResults() {
+  var el = document.getElementById("res"); if (!el) return;
+  var ls = visibleListings(), html = "";
+  if (UI.view === "map") {
+    html += '<div class="map">' + mapBg() + '<div class="you"></div><div class="maptag">' + t("approxAreas") + "</div>";
+    var R = Math.max(UI.radius, 6);
+    ls.forEach(function (l) {
+      var f = farmerOf(l.fid), p = pos(f.x, f.y, R), b = l.mode === "auction" ? topBid(l) : null;
+      var label = l.mode === "auction" ? (st.lang === "ta" ? "ஏலம் " : "Bid ") + money(b ? b.amount : l.start) : money(l.price) + "/" + un(l.unit);
+      html += '<button class="mk ' + (l.fid === "me" ? "me" : l.mode === "auction" ? "a" : l.mode === "nego" ? "n" : "") + '" style="left:' + p.l + "%;top:" + p.t + '%" onclick="go(\'listing/' + l.id + '\')">' + VEG[l.veg][0] + " " + label + "</button>";
+    });
+    html += "</div>";
+  }
+  html += '<div class="wrap"><div class="row sb" style="margin:14px 0 12px"><div><div class="b" style="font-size:17px">' + ls.length + " " + t("nearYou") + '</div></div><div class="seg" style="width:auto"><button class="' + (UI.view === "map" ? "on" : "") + '" onclick="UI.view=\'map\';drawResults()">' + t("map") + '</button><button class="' + (UI.view === "list" ? "on" : "") + '" onclick="UI.view=\'list\';drawResults()">' + t("list") + "</button></div></div>";
+  html += ls.length ? ls.map(function (l) { return listingCard(l); }).join("") : '<div class="empty"><div class="e">🔍</div>' + t("noResults") + "</div>";
+  html += "</div>";
+  el.innerHTML = html;
+}
+
+/* ------------------------------------------------------------ buyer: listing */
+function farmRow(f) {
+  return '<button class="card row" style="gap:12px;padding:12px;width:100%;text-align:left;margin-top:14px" onclick="go(\'farmer/' + f.id + '\')"><div class="avatar">' + esc(f.name.charAt(0)) + '</div><div class="mid"><div class="b ell">' + esc(f.name) + (f.verified ? ' <span class="pill p-g" style="height:20px;font-size:11px">' + icon("shield", "width:13px;height:13px") + t("verified") + "</span>" : "") + '</div><div class="sm muted">' + t("about") + " " + kmTxt(f) + " " + t("away") + " · " + stars(rating(f)) + " · " + t("level") + " " + level(f.clean) + "</div></div>" + icon("chev", "color:#5C6A60") + "</button>";
+}
+function vListing(id) {
+  var l = L(id); if (!l) return [topbar("", true) + '<div class="empty">—</div>', false];
+  var f = farmerOf(l.fid), v = VEG[l.veg], mine = l.fid === "me";
+  var h = topbar(vn(l.veg), true) + '<div class="wrap">' + (mine ? ownHero(l) : buyerGallery(l)) +
+    '<div class="row sb mt12"><div class="row" style="gap:6px">' + modePill(l.mode) + (l.del.on ? '<span class="pill p-n">' + icon("truck", "width:14px;height:14px") + t("delivery") + "</span>" : "") + "</div>" +
+    '<span class="sm muted">' + ago(l.created) + "</span></div>" + farmRow(f);
+  h += '<div class="card" style="padding:4px 14px;margin-top:12px">' +
+    '<div class="kv"><span>' + (l.mode === "auction" ? t("lot") : t("available")) + "</span><span>" + l.qty + " " + un(l.unit) + "</span></div>" +
+    '<div class="kv"><span>' + t("pickup") + "</span><span>✓</span></div>" +
+    '<div class="kv"><span>' + t("delivery") + "</span><span>" + (l.del.on ? money(l.del.charge) + " · " + (st.lang === "ta" ? "அதிகபட்சம் " : "up to ") + l.del.km + " " + t("km") : "—") + "</span></div>" +
+    (l.note ? '<div class="kv"><span>' + t("harvest") + '</span><span style="font-weight:600;max-width:60%">' + esc(l.note) + "</span></div>" : "") + "</div>";
+  var closed = l.status !== "active" || (l.mode === "auction" && l.ends <= now());
+  if (mine) h += '<div class="note b mt16">' + icon("info") + "<span>" + t("ownListing") + "</span></div>";
+  else if (l.mode === "fixed") h += closed ? statusNote(l) : fixedBox(l);
+  else if (l.mode === "auction") h += auctionBox(l, closed);
+  else h += closed ? statusNote(l) : negoBox(l);
+  h += '<div class="note g mt16">' + icon("lock") + "<span>" + t("privOrder") + "</span></div></div>";
+  return [h, false];
+}
+function statusNote(l) { return '<div class="note a mt16">' + icon("info") + "<span>" + (l.status === "sold" ? t("soldOut") : t("closed")) + "</span></div>"; }
+function fixedBox(l) {
+  if (UI.qty > l.qty) UI.qty = l.qty;
+  if (!l.del.on) UI.method = "pickup";
+  var sub = UI.qty * l.price, dc = UI.method === "delivery" ? l.del.charge : 0;
+  return '<div class="lab">' + t("quantity") + " (" + un(l.unit) + ")</div>" +
+    '<div class="row sb" style="gap:12px"><div class="stp" style="width:170px"><button onclick="stepQty(-1,' + l.qty + ')">−</button><input id="qty" inputmode="numeric" value="' + UI.qty + '" onchange="setQty(this.value,' + l.qty + ')"><button onclick="stepQty(1,' + l.qty + ')">+</button></div>' +
+    '<div style="text-align:right"><div class="big">' + money(l.price) + '</div><div class="sm muted">/' + un(l.unit) + "</div></div></div>" +
+    (l.del.on ? '<div class="lab">' + t("howGet") + '</div><div class="seg"><button class="' + (UI.method === "pickup" ? "on" : "") + '" onclick="UI.method=\'pickup\';render(true)">' + t("pickup") + '</button><button class="' + (UI.method === "delivery" ? "on" : "") + '" onclick="UI.method=\'delivery\';render(true)">' + t("delivery") + " +" + money(l.del.charge) + "</button></div>" : "") +
+    '<div class="card" style="padding:4px 14px;margin-top:14px"><div class="kv"><span>' + UI.qty + " × " + money(l.price) + "</span><span>" + money(sub) + "</span></div>" +
+    (dc ? '<div class="kv"><span>' + t("deliveryCharge") + "</span><span>" + money(dc) + "</span></div>" : "") +
+    '<div class="kv"><span class="b" style="color:#17231B">' + t("total") + '</span><span style="font-size:18px">' + money(sub + dc) + "</span></div></div>" +
+    '<p class="hint">' + t("payCash") + '</p><button class="btn mt12" onclick="placeOrder(\'' + l.id + '\')">' + t("placeOrder") + " · " + money(sub + dc) + "</button>";
+}
+function stepQty(d, max) { UI.qty = Math.max(1, Math.min(max, UI.qty + d)); render(true); }
+function setQty(v, max) { UI.qty = Math.max(1, Math.min(max, parseInt(v, 10) || 1)); render(true); }
+function auctionBox(l, closed) {
+  var b = topBid(l), mineTop = b && b.by === "me";
+  var h = '<div class="card pad mt16"><div class="row sb"><div><div class="sm muted">' + (b ? t("topBid") : t("startBid")) + '</div><div class="big">' + money(b ? b.amount : l.start) + ' <span class="sm muted" style="font-weight:600">/' + un(l.unit) + '</span></div><div class="sm muted">' + l.bids.length + " " + t("bidsCount") + "</div></div>" +
+    '<div style="text-align:right"><div class="sm muted">' + t("endsIn") + '</div><div class="big cd" data-end="' + l.ends + '">' + left(l.ends - now()) + "</div></div></div>" +
+    (mineTop && !closed ? '<div class="note g mt12">' + icon("info") + "<span>" + t("leading") + "</span></div>" : "") + "</div>";
+  if (l.status === "won" && l.winner === "me") h += '<div class="note g mt12"><span><b>' + t("won") + "!</b> " + t("confirmIn") + ' <b data-end="' + l.confirmBy + '">' + left(l.confirmBy - now()) + '</b></span></div><button class="btn mt12" onclick="confirmWin(\'' + l.id + '\')">' + t("confirmBuy") + " · " + money(winBid(l).amount * l.qty) + "</button>";
+  else if (closed) h += statusNote(l);
+  else {
+    var mn = minNext(l);
+    h += '<label class="flab" for="bid">' + t("yourBid") + " " + un(l.unit) + ' (₹)</label><input id="bid" class="fld" inputmode="numeric" value="' + mn + '">' +
+      '<p class="hint">' + t("minBid") + ": " + money(mn) + " · " + t("lot") + " " + l.qty + " " + un(l.unit) + "</p>" +
+      '<button class="btn amber mt12" onclick="placeBid(\'' + l.id + '\')">' + t("placeBid") + "</button>" +
+      (l.buyNow ? '<button class="btn sec mt8" onclick="buyNow(\'' + l.id + '\')">' + t("buyNow") + " " + money(l.buyNow) + "/" + un(l.unit) + " · " + money(l.buyNow * l.qty) + "</button>" : "") +
+      '<div class="note a mt12">' + icon("clock") + "<span>" + t("winRule") + "</span></div>";
+  }
+  if (l.bids.length) {
+    h += '<div class="lab">' + t("bidHistory") + '</div><div class="card" style="padding:2px 14px">' + l.bids.slice().sort(function (a, c) { return c.amount - a.amount; }).slice(0, 6).map(function (x) {
+      return '<div class="kv"><span>' + (x.by === "me" ? "<b style=\"color:#2F7D3B\">" + t("you") + "</b>" : esc(x.name)) + " · " + ago(x.at) + "</span><span>" + money(x.amount) + "</span></div>";
+    }).join("") + "</div>";
+  }
+  return h;
+}
+function myOffer(l) { for (var i = l.offers.length - 1; i >= 0; i--) if (l.offers[i].by === "me") return l.offers[i]; return null; }
+function negoBox(l) {
+  var o = myOffer(l), h = '<div class="card pad mt16 row sb"><div><div class="sm muted">' + t("asking") + '</div><div class="big">' + money(l.price) + ' <span class="sm muted" style="font-weight:600">/' + un(l.unit) + "</span></div></div>" + '<span class="pill p-b">' + t("nego") + "</span></div>";
+  if (o && o.status === "pending") return h + '<div class="note b mt12">' + icon("clock") + "<span>" + t("offerPending") + ": <b>" + money(o.amount) + "/" + un(l.unit) + "</b> × " + o.qty + "</span></div>";
+  if (o && o.status === "countered") return h + '<div class="note a mt12"><span><b>' + t("countered") + ": " + money(o.counter) + "/" + un(l.unit) + "</b> (" + t("you") + ": " + money(o.amount) + ')</span></div><div class="btns"><button class="btn" onclick="acceptCounter(\'' + l.id + "','" + o.id + '\')">' + t("acceptCounter") + " · " + money(o.counter * o.qty) + '</button><button class="btn warn" onclick="declineCounter(\'' + l.id + "','" + o.id + '\')">' + t("decline") + "</button></div>";
+  if (o && o.status === "accepted") return h + '<div class="note g mt12">' + icon("info") + "<span>" + t("offerAccepted") + " · " + t("orderMade") + "</span></div>";
+  var rej = o && o.status === "rejected" ? '<div class="note r mt12">' + icon("info") + "<span>" + t("offerRejected") + ": " + money(o.amount) + "</span></div>" : "";
+  var qd = Math.min(5, l.qty);
+  return h + rej + '<div class="row" style="gap:10px"><div style="flex:1"><label class="flab" for="off">' + t("yourOffer") + " " + un(l.unit) + ' (₹)</label><input id="off" class="fld" inputmode="numeric" value="' + Math.round(l.price * 0.9) + '"></div>' +
+    '<div style="width:120px"><label class="flab" for="oq">' + t("quantity") + '</label><input id="oq" class="fld" inputmode="numeric" value="' + qd + '"></div></div>' +
+    '<button class="btn mt16" style="background:#1A4C84" onclick="sendOffer(\'' + l.id + '\')">' + t("sendOffer") + "</button>";
+}
+
+/* ------------------------------------------------------------ buyer actions */
+function newOrder(l, o) {
+  var f = farmerOf(l.fid);
+  var ord = { id: uid(), no: 1000 + st.orders.length + 42, lid: l.id, fid: l.fid, veg: l.veg, unit: l.unit, qty: o.qty, price: o.price, method: o.method || "pickup",
+    dcharge: o.method === "delivery" ? l.del.charge : 0, buyer: o.buyer || "me", buyerName: o.buyerName || (st.user ? st.user.name : ""), buyerPhone: o.buyerPhone || (st.user ? st.user.phone : ""),
+    addr: o.method === "delivery" ? (o.addr || pick(ADDR)) : "", status: o.status || "placed", src: o.src || l.mode, at: now(), disputed: false, reviewed: false, hist: { placed: now() } };
+  ord.total = ord.qty * ord.price + ord.dcharge;
+  if (ord.status === "confirmed") ord.hist.confirmed = now();
+  st.orders.unshift(ord);
+  if (ord.buyer === "me" && l.fid !== "me" && ord.status === "placed") sched("farmerConfirm", rnd(4000, 7000), { oid: ord.id });
+  return ord;
+}
+function placeOrder(lid) {
+  var l = L(lid); if (!l || l.status !== "active") return;
+  var q = Math.max(1, Math.min(l.qty, UI.qty));
+  var ord = newOrder(l, { qty: q, price: l.price, method: UI.method });
+  l.qty -= q; if (l.qty <= 0) { l.qty = 0; l.status = "sold"; }
+  UI.qty = 1; save(); toast(t("tl_placed")); go("order/" + ord.id, true);
+}
+function placeBid(lid) {
+  var l = L(lid), v = parseInt(document.getElementById("bid").value, 10), mn = minNext(l);
+  if (!v || v < mn) return toast(t("bidTooLow") + " " + money(mn));
+  l.bids.push({ by: "me", name: st.user.name, amount: v, at: now() });
+  if (Math.random() < 0.65 && l.ends - now() > 20000) sched("rivalBid", rnd(7000, 15000), { lid: lid });
+  save(); toast(t("bidPlaced")); render(true);
+}
+function buyNow(lid) {
+  var l = L(lid); if (!l || l.status !== "active") return;
+  var ord = newOrder(l, { qty: l.qty, price: l.buyNow, src: "auction" });
+  l.status = "sold"; l.winner = "me"; save(); go("order/" + ord.id, true);
+}
+function sendOffer(lid) {
+  var l = L(lid), a = parseInt(document.getElementById("off").value, 10), q = parseInt(document.getElementById("oq").value, 10);
+  if (!a || a < 1) return toast(t("fillAll"));
+  q = Math.max(1, Math.min(l.qty, q || 1));
+  var o = { id: uid(), by: "me", name: st.user.name, amount: a, qty: q, status: "pending", at: now() };
+  l.offers.push(o); sched("farmerReply", rnd(4000, 8000), { lid: lid, oid: o.id }); save(); toast(t("offerSent")); render(true);
+}
+function findOffer(l, oid) { for (var i = 0; i < l.offers.length; i++) if (l.offers[i].id === oid) return l.offers[i]; return null; }
+function acceptCounter(lid, oid) {
+  var l = L(lid), o = findOffer(l, oid); if (!o || o.status !== "countered") return;
+  o.status = "accepted"; o.amount = o.counter;
+  var q = Math.min(o.qty, l.qty); var ord = newOrder(l, { qty: q, price: o.counter, src: "nego" });
+  l.qty -= q; if (l.qty <= 0) { l.qty = 0; l.status = "sold"; }
+  save(); go("order/" + ord.id, true);
+}
+function declineCounter(lid, oid) { var o = findOffer(L(lid), oid); if (o) o.status = "rejected"; save(); render(true); }
+function confirmWin(lid) {
+  var l = L(lid); if (!l || l.status !== "won" || l.winner !== "me") return;
+  var b = winBid(l); l.status = "sold";
+  var ord = newOrder(l, { qty: l.qty, price: b.amount, src: "auction" });
+  save(); go("order/" + ord.id, true);
+}
+function letGo(lid) { var l = L(lid); if (!l) return; l.confirmBy = now() - 1; save(); tick(); render(true); }
+
+/* ------------------------------------------------------------ buyer: bids */
+function vBids() {
+  var A = st.listings.filter(function (l) { return l.mode === "auction" && l.bids.some(function (b) { return b.by === "me"; }); });
+  var N = st.listings.filter(function (l) { return l.mode === "nego" && l.offers.some(function (o) { return o.by === "me"; }); });
+  var h = topbar(t("myBids")) + '<div class="wrap">';
+  if (!A.length && !N.length) h += '<div class="empty"><div class="e">🏷️</div>' + t("noBids") + '<div class="mt16"><button class="btn sec sm" onclick="go(\'explore\',true)">' + t("explore") + "</button></div></div>";
+  if (A.length) {
+    h += '<div class="lab">' + t("auctions") + "</div>";
+    A.sort(function (a, b) { return (b.status === "won") - (a.status === "won") || a.ends - b.ends; }).forEach(function (l) {
+      var b = topBid(l), my = Math.max.apply(null, l.bids.filter(function (x) { return x.by === "me"; }).map(function (x) { return x.amount; })), live = l.status === "active" && l.ends > now(), f = farmerOf(l.fid);
+      var pill, extra = "";
+      if (l.status === "won" && l.winner === "me") { pill = '<span class="pill p-g">' + t("won") + "</span>"; extra = '<div class="note g mt8" style="padding:8px 10px"><span>' + t("confirmIn") + ' <b data-end="' + l.confirmBy + '">' + left(l.confirmBy - now()) + '</b></span></div><div class="btns"><button class="btn sm" style="flex:1" onclick="confirmWin(\'' + l.id + '\')">' + t("confirmBuy") + '</button><button class="btn warn sm" onclick="letGo(\'' + l.id + '\')">' + t("letGo") + "</button></div>"; }
+      else if (live) pill = b && b.by === "me" ? '<span class="pill p-g">' + t("leading") + "</span>" : '<span class="pill p-r">' + t("outbid") + "</span>";
+      else if (l.winner === "me" && st.orders.some(function (o) { return o.lid === l.id && o.buyer === "me"; })) pill = '<span class="pill p-g">' + t("orderMade") + "</span>";
+      else pill = '<span class="pill p-n">' + t("lost") + "</span>";
+      h += '<div class="card pad" style="margin-bottom:10px"><button class="row" style="gap:12px;width:100%;text-align:left" onclick="go(\'listing/' + l.id + '\')">' + tile(l.veg, 52) + '<span class="mid"><span class="b ell" style="display:block">' + vn(l.veg) + '</span><span class="sm muted ell" style="display:block">' + esc(f.name) + "</span>" + '<span class="row" style="gap:6px;margin-top:5px">' + pill + (live ? '<span class="sm cd" data-end="' + l.ends + '">' + left(l.ends - now()) + "</span>" : "") + "</span></span>" +
+        '<span class="pr" style="text-align:right"><span class="sm muted" style="display:block">' + t("you") + ": " + money(my) + '</span><span class="b" style="display:block;font-size:17px">' + money(b.amount) + '</span><span class="sm muted">' + t("topBid") + "</span></span></button>" + extra + "</div>";
+    });
+  }
+  if (N.length) {
+    h += '<div class="lab">' + t("negotiations") + "</div>";
+    N.forEach(function (l) {
+      var o = myOffer(l), f = farmerOf(l.fid);
+      var pill = { pending: '<span class="pill p-b">' + t("offerPending") + "</span>", countered: '<span class="pill p-a">' + t("countered") + " " + money(o.counter) + "</span>", accepted: '<span class="pill p-g">' + t("offerAccepted") + "</span>", rejected: '<span class="pill p-r">' + t("offerRejected") + "</span>" }[o.status];
+      h += '<button class="card lc" onclick="go(\'listing/' + l.id + '\')">' + tile(l.veg, 52) + '<span class="mid"><span class="b ell" style="display:block">' + vn(l.veg) + '</span><span class="sm muted ell" style="display:block">' + esc(f.name) + " · " + t("asking") + " " + money(l.price) + '</span><span style="display:block;margin-top:5px">' + pill + '</span></span><span class="pr"><span class="sm muted" style="display:block">' + t("you") + '</span><span class="b">' + money(o.amount) + "</span></span></button>";
+    });
+  }
+  return [h + "</div>", true, "bids"];
+}
+
+/* ------------------------------------------------------------ orders (shared detail) */
+function statusPill(o, farmerView) {
+  if (farmerView && o.status === "placed" && !o.disputed) return '<span class="pill p-a">' + t("st_new") + "</span>";
+  if (o.disputed) return '<span class="pill p-r">' + t("disputed") + "</span>";
+  var c = { placed: "p-a", confirmed: "p-b", ready: "p-g", completed: "p-g", cancelled: "p-n" }[o.status];
+  return '<span class="pill ' + c + '">' + t("st_" + o.status) + "</span>";
+}
+function orderCard(o, link) {
+  var f = farmerOf(o.fid);
+  return '<button class="card lc" onclick="go(\'' + link + '\')">' + tile(o.veg, 52) + '<span class="mid"><span class="b ell" style="display:block">' + vn(o.veg) + " · " + o.qty + " " + un(o.unit) + '</span><span class="sm muted ell" style="display:block">#' + o.no + " · " + esc(link.indexOf("f-orders") === 0 ? o.buyerName : f.name) + " · " + ago(o.at) + '</span><span style="display:block;margin-top:5px">' + statusPill(o) + '</span></span><span class="pr"><span class="b" style="font-size:17px">' + money(o.total) + "</span></span></button>";
+}
+function vOrders() {
+  var os = st.orders.filter(function (o) { return o.buyer === "me"; });
+  var h = topbar(t("myOrders")) + '<div class="wrap">' + (os.length ? os.map(function (o) { return orderCard(o, "order/" + o.id); }).join("") : '<div class="empty"><div class="e">🧺</div>' + t("noOrders") + "</div>") + "</div>";
+  return [h, true, "orders"];
+}
+function timeline(o) {
+  var steps = ["placed", "confirmed", "ready", "completed"], idx = steps.indexOf(o.status);
+  if (o.status === "cancelled") return '<div class="note r">' + icon("info") + "<span>" + t("st_cancelled") + "</span></div>";
+  return '<div class="tl">' + steps.map(function (s, i) { return '<div class="st ' + (i <= idx ? "done" : "") + '"><div class="b" style="font-size:14.5px">' + t("tl_" + s) + '</div><div class="sm muted">' + (o.hist[s] ? ago(o.hist[s]) : "") + "</div></div>"; }).join("") + "</div>";
+}
+function orderSummary(o) {
+  return '<div class="card" style="padding:4px 14px;margin-top:12px"><div class="kv"><span>' + o.qty + " " + un(o.unit) + " × " + money(o.price) + "</span><span>" + money(o.qty * o.price) + "</span></div>" +
+    '<div class="kv"><span>' + (o.method === "delivery" ? t("delivery") : t("pickup")) + "</span><span>" + (o.dcharge ? money(o.dcharge) : "₹0") + "</span></div>" +
+    (o.src !== "fixed" ? '<div class="kv"><span>' + (o.src === "auction" ? t("fromAuction") : t("fromOffer")) + "</span><span>✓</span></div>" : "") +
+    '<div class="kv"><span class="b" style="color:#17231B">' + t("total") + '</span><span style="font-size:18px">' + money(o.total) + "</span></div></div>";
+}
+function vOrder(id) {
+  var o = O(id); if (!o) return [topbar("", true), false];
+  var f = farmerOf(o.fid), revealed = ["confirmed", "ready", "completed"].indexOf(o.status) >= 0;
+  var h = topbar(t("order") + " #" + o.no, true) + '<div class="wrap"><div class="card pad row" style="gap:12px">' + tile(o.veg, 56) + '<div class="mid"><div class="b">' + vn(o.veg) + '</div><div class="sm muted">' + esc(f.name) + "</div></div>" + statusPill(o) + "</div>" +
+    '<div class="card pad mt12">' + timeline(o) + "</div>" + orderSummary(o);
+  h += '<div class="lab">' + t("contact") + "</div>";
+  if (revealed) h += '<div class="card pad"><div class="row sb"><div><div class="b">' + esc(f.name) + '</div><div class="sm muted">+91 ' + esc(f.phone) + '</div></div><a class="btn sm" href="tel:+91' + esc(String(f.phone).replace(/\s/g, "")) + '">' + icon("phone", "width:18px;height:18px") + t("call") + "</a></div>" +
+    '<div class="kv" style="margin-top:8px"><span>' + t("exactLoc") + "</span><span>" + esc(f.village) + "</span></div></div>";
+  else if (o.status !== "cancelled") h += '<div class="note b">' + icon("lock") + "<span>" + t("hiddenContact") + "</span></div>";
+  if (o.status === "placed") h += '<button class="btn warn mt16" onclick="cancelOrder(\'' + o.id + '\')">' + t("cancelOrder") + "</button>";
+  if (o.status === "confirmed" || o.status === "ready") h += '<button class="btn mt16" onclick="received(\'' + o.id + '\')">' + t("received") + "</button>";
+  if (o.status === "completed" && !o.reviewed && !o.disputed) h += '<button class="btn amber mt16" onclick="go(\'review/' + o.id + '\')">' + t("rate") + "</button>";
+  if (o.disputed) h += '<div class="note r mt16">' + icon("flag") + "<span>" + t("reported") + "</span></div>";
+  else if (["confirmed", "ready", "completed"].indexOf(o.status) >= 0) h += '<button class="btn sec mt8" onclick="reportOrder(\'' + o.id + '\')">' + icon("flag", "width:18px;height:18px") + t("report") + "</button>";
+  return [h + "</div>", false];
+}
+function cancelOrder(id) {
+  var o = O(id); if (!o || o.status !== "placed") return;
+  o.status = "cancelled"; var l = L(o.lid);
+  if (l && o.src === "fixed") { l.qty += o.qty; if (l.status === "sold") l.status = "active"; }
+  save(); render(true);
+}
+function completeOrder(o) {
+  o.status = "completed"; o.hist.completed = now();
+  if (!o.disputed) {
+    if (o.fid === "me") { var before = level(st.farm.clean); st.farm.clean = (st.farm.clean || 0) + 1; if (level(st.farm.clean) > before) note("farmer", "🎉 " + t("n_level") + " " + level(st.farm.clean), "f-home"); }
+    else farmerOf(o.fid).clean++;
+  }
+}
+function received(id) { var o = O(id); if (!o) return; completeOrder(o); save(); go("review/" + id, true); }
+function reportOrder(id) {
+  var o = O(id); if (!o || o.disputed) return;
+  if (o.status === "completed" && !o.disputedCounted) { if (o.fid === "me") st.farm.clean = Math.max(0, st.farm.clean - 1); else farmerOf(o.fid).clean = Math.max(0, farmerOf(o.fid).clean - 1); }
+  o.disputed = true; save(); toast(t("reported")); render(true);
+}
+function vReview(id) {
+  var o = O(id); if (!o) return [topbar("", true), false];
+  var f = farmerOf(o.fid);
+  var tags = ["tag_fresh", "tag_price", "tag_time", "tag_pack", "tag_friendly"];
+  var h = topbar(t("rate"), true) + '<div class="wrap" style="text-align:center"><div class="avatar" style="width:72px;height:72px;font-size:30px;margin:10px auto 0">' + esc(f.name.charAt(0)) + "</div>" +
+    '<h2 style="font-size:22px;font-weight:800;margin-top:12px">' + t("howWas") + '</h2><p class="muted sm mt8">' + vn(o.veg) + " · " + esc(f.name) + " · #" + o.no + "</p>" +
+    '<div class="stars" style="justify-content:center;margin-top:16px">' + [1, 2, 3, 4, 5].map(function (n) { return '<button class="' + (n <= UI.stars ? "on" : "") + '" aria-label="' + n + ' stars" onclick="UI.stars=' + n + ';render(true)">★</button>'; }).join("") + "</div>" +
+    '<div class="lab" style="text-align:left">' + t("wentWell") + '</div><div class="tags">' + tags.map(function (k) { return '<button class="chip ' + (UI.tags.indexOf(k) >= 0 ? "on" : "") + '" onclick="togTag(\'' + k + '\')">' + t(k) + "</button>"; }).join("") + "</div>" +
+    '<label class="flab" style="text-align:left" for="cm">' + t("comment") + '</label><textarea id="cm" class="fld" maxlength="300"></textarea>' +
+    '<button class="btn mt16" ' + (UI.stars ? "" : "disabled") + ' onclick="submitReview(\'' + o.id + '\')">' + t("submitReview") + '</button><button class="btn sec mt8" style="border:0" onclick="go(\'order/' + o.id + '\',true)">' + t("skip") + "</button></div>";
+  return [h, false];
+}
+function togTag(k) { var i = UI.tags.indexOf(k); if (i >= 0) UI.tags.splice(i, 1); else UI.tags.push(k); var c = document.getElementById("cm"), v = c ? c.value : ""; render(true); document.getElementById("cm").value = v; }
+function submitReview(id) {
+  var o = O(id), f = farmerOf(o.fid), txt = document.getElementById("cm").value.trim();
+  if (!txt) txt = UI.tags.map(function (k) { return TX[k][0]; }).join(", ");
+  if (o.fid === "me") { st.farm.rs += UI.stars; st.farm.rc++; } else { f.rs += UI.stars; f.rc++; }
+  st.reviews.unshift({ fid: o.fid, name: st.user.name, stars: UI.stars, text: txt, at: now() });
+  o.reviewed = true; UI.stars = 0; UI.tags = []; save(); toast(t("rated")); go("order/" + id, true);
+}
+
+/* ------------------------------------------------------------ farmer profile (public) */
+function vFarmer(fid) {
+  var f = farmerOf(fid), ls = st.listings.filter(function (l) { return l.fid === fid && l.status === "active" && !(l.mode === "auction" && l.ends <= now()); });
+  var rv = st.reviews.filter(function (r) { return r.fid === fid; }).slice(0, 5);
+  var h = topbar(t("farmer"), true) + '<div class="wrap" style="text-align:center"><div class="avatar" style="width:72px;height:72px;font-size:30px;margin:4px auto 0">' + esc(f.name.charAt(0)) + "</div>" +
+    '<h2 style="font-size:22px;font-weight:800;margin-top:10px">' + esc(f.name) + "</h2>" +
+    '<div class="row" style="justify-content:center;gap:6px;margin-top:6px;flex-wrap:wrap">' + (f.verified ? '<span class="pill p-g">' + icon("shield", "width:14px;height:14px") + t("verified") + "</span>" : "") + '<span class="sm muted">' + esc(f.village) + " · " + t("about") + " " + kmTxt(f) + "</span></div></div>" +
+    '<div class="wrap"><div class="row" style="gap:8px;margin-top:14px"><div class="card stat"><div class="v">' + stars(rating(f)) + '</div><div class="sm muted">' + f.rc + " " + t("reviews") + '</div></div><div class="card stat"><div class="v">' + t("level") + " " + level(f.clean) + '</div><div class="sm muted">' + t("trustLevel") + '</div></div><div class="card stat"><div class="v">' + f.clean + '</div><div class="sm muted">' + t("cleanSales") + "</div></div></div>" +
+    '<p class="sm muted mt8" style="line-height:1.5">' + t("starsVsLevel") + "</p>" +
+    '<div class="lab">' + t("onSale") + "</div>" + (ls.length ? ls.map(function (l) { return listingCard(l); }).join("") : '<p class="muted sm">—</p>') +
+    '<div class="lab">' + t("recentReviews") + "</div>" + (rv.length ? rv.map(function (r) { return '<div class="card pad" style="margin-bottom:8px"><div class="row sb"><span class="b">' + esc(r.name) + '</span><span class="sm muted">' + ago(r.at) + '</span></div><div style="color:#E08A00;margin-top:2px">' + "★★★★★".slice(0, r.stars) + '<span style="color:#D5DBD0">' + "★★★★★".slice(r.stars) + '</span></div><div class="mt8" style="font-size:14px">' + esc(r.text) + "</div></div>"; }).join("") : '<p class="muted sm">' + t("noReviews") + "</p>") + "</div>";
+  return [h, false];
+}
+
+/* ------------------------------------------------------------ alerts, profile */
+function vAlerts() {
+  var ns = st.notes.filter(function (n) { return n.role === st.role; });
+  var h = topbar(t("alerts"), st.role === "farmer", ns.length ? '<button class="lnk sm" onclick="markRead()">' + t("markRead") + "</button>" : "") + '<div class="wrap">';
+  h += ns.length ? '<div class="card">' + ns.map(function (n) { return '<button class="item ' + (n.read ? "" : "unread") + '" style="padding-top:12px;padding-bottom:12px" onclick="openNote(\'' + n.id + '\')"><span class="mid"><span style="display:block;font-size:14.5px;font-weight:' + (n.read ? 600 : 800) + '">' + esc(n.text) + '</span><span class="sm muted">' + ago(n.at) + "</span></span>" + icon("chev", "color:#5C6A60") + "</button>"; }).join("") + "</div>"
+    : '<div class="empty"><div class="e">🔔</div>' + t("noAlerts") + "</div>";
+  return [h + "</div>", st.role !== "farmer", "alerts"];
+}
+function markRead() { st.notes.forEach(function (n) { if (n.role === st.role) n.read = true; }); save(); render(true); }
+function openNote(id) { var n = st.notes.filter(function (x) { return x.id === id; })[0]; if (!n) return; n.read = true; save(); if (n.link) go(n.link); else render(true); }
+function vProfile() {
+  var f = st.farm;
+  var h = topbar(t("profile")) + '<div class="wrap"><div class="card row" style="gap:14px;padding:14px"><div class="avatar" style="background:#FCE8C4;color:#7A4D06">' + esc(st.user.name.charAt(0)) + '</div><div class="mid"><div class="b" style="font-size:18px">' + esc(st.user.name) + '</div><div class="sm muted">+91 ' + esc(st.user.phone) + "</div></div></div>" +
+    '<div class="lab">' + t("language") + '</div><div class="card" style="padding:10px 14px"><div class="row sb"><span class="b">' + t("appLang") + '</span><div class="seg"><button class="' + (st.lang === "en" ? "on" : "") + '" onclick="setLang(\'en\')">English</button><button class="' + (st.lang === "ta" ? "on" : "") + '" onclick="setLang(\'ta\')">தமிழ்</button></div></div></div>';
+  if (f) {
+    h += '<div class="lab">' + t("myFarm") + '</div><div class="card"><div class="item" style="padding-top:12px;padding-bottom:12px"><span class="mid"><span class="b" style="display:block">' + esc(f.name) + '</span><span class="sm muted">' + esc(f.village) + "</span></span>" + (f.verified ? '<span class="pill p-g">' + t("verified") + "</span>" : "") + "</div>" +
+      '<button class="item" onclick="go(\'f-pin\')"><span class="t">' + t("editPin") + "</span>" + icon("chev", "color:#5C6A60") + "</button>" +
+      (f.verified ? "" : f.vstate === "pending" ? '<div class="item"><span class="t muted">' + t("verifyPending") + "</span>" + icon("clock", "color:#5C6A60") + "</div>" : '<button class="item" style="padding-top:12px;padding-bottom:12px" onclick="reqVerify()"><span class="mid"><span class="t" style="display:block">' + t("getVerified") + '</span><span class="sm muted">' + t("verifyHint") + "</span></span>" + icon("chev", "color:#5C6A60") + "</button>") + "</div>";
+  }
+  h += '<div class="lab">' + t("yourPrivacy") + '</div><div class="card">' +
+    (APP === "farmer" ? [["pinFarm", "pinPriv"], ["privPhone", "privPhoneD"], ["privPerm", "privPermD"]] : [["privLoc", "privLocD"], ["privPhone", "privPhoneD"], ["privPerm", "privPermD"]]).map(function (p) { return '<div class="item" style="padding-top:12px;padding-bottom:12px;align-items:flex-start"><span class="mid"><span class="b" style="display:block">' + t(p[0]) + '</span><span class="sm muted" style="line-height:1.45">' + t(p[1]) + "</span></span></div>"; }).join("") + "</div>" +
+    (APP === "farmer" ? '<div class="lab">' + t("demoTools") + '</div><div class="card"><button class="item" onclick="simReport()"><span class="t">⚑ ' + t("simReport") + "</span></button></div>" : "") +
+    '<div class="lab">' + t("account") + '</div><div class="card"><button class="item" onclick="ask(\'confirmReset\',doReset)"><span class="t">' + t("resetDemo") + '</span></button><button class="item" onclick="signOut()"><span class="t">' + t("signout") + '</span></button><button class="item" onclick="ask(\'confirmDelete\',doDelete)"><span class="t" style="color:#8E2A21">' + t("deleteAll") + "</span></button></div>" +
+    '<p class="sm muted" style="text-align:center;margin:18px 0 6px">FarmersDelight' + (APP === "farmer" ? " · " + t("farmerApp") : "") + " · " + t("version") + " 1.1 (demo)</p></div>";
+  return [h, true, "profile"];
+}
+function reqVerify() { st.farm.vstate = "pending"; sched("verify", 20000); save(); toast(t("verifyPending")); render(true); }
+function signOut() { st.user = null; st.role = null; save(); go("welcome", true); }
+function doReset() { seed(true); UI.draft = null; toast("✓"); go(st.role === "farmer" ? "f-home" : "explore", true); render(); }
+function doDelete() { try { localStorage.removeItem(KEY); } catch (e) {} st = null; seed(); go("welcome", true); render(); }
+function ask(k, fn) {
+  window._askFn = fn;
+  openSheet('<p style="font-size:16px;font-weight:700;line-height:1.45">' + t(k) + '</p><div class="btns" style="margin-top:18px"><button class="btn sec" onclick="closeSheet()">' + t("no") + '</button><button class="btn" onclick="closeSheet();window._askFn()">' + t("yes") + "</button></div>");
+}
+function openSheet(inner) { document.getElementById("sheet").innerHTML = '<div class="sheetbg" onclick="if(event.target===this)closeSheet()"><div class="sheet"><div class="grab"></div>' + inner + "</div></div>"; }
+function closeSheet() { var s = document.getElementById("sheet"); if (s) s.innerHTML = ""; }
+
+/* ------------------------------------------------------------ farmer: setup and pin */
+function vFarmSetup() {
+  if (!UI.pin && st.farm) UI.pin = { x: st.farm.x, y: st.farm.y };
+  var d = UI.fs || { name: st.farm ? st.farm.name : (firstName() + " Farm"), village: st.farm ? st.farm.village : "" };
+  UI.fs = d;
+  var h = topbar(t("setupFarm"), !!st.farm) + '<div class="wrap"><label class="flab" for="fn">' + t("farmName") + '</label><input id="fn" class="fld" value="' + esc(d.name) + '" oninput="UI.fs.name=this.value">' +
+    '<label class="flab" for="fv">' + t("village") + '</label><input id="fv" class="fld" value="' + esc(d.village) + '" oninput="UI.fs.village=this.value">' +
+    '<div class="lab">' + t("pinFarm") + '</div><p class="sm muted" style="margin-bottom:8px">' + t("tapMap") + "</p></div>" + pinMap() +
+    '<div class="wrap"><div class="note g mt12">' + icon("lock") + "<span>" + t("pinPriv") + '</span></div><button class="btn mt16" onclick="saveFarm()">' + t("saveFarm") + "</button></div>";
+  return [h, false];
+}
+function pinMap() {
+  var p = UI.pin ? pos(UI.pin.x, UI.pin.y, 8) : null;
+  return '<div class="map" id="pm" style="height:280px" onclick="tapPin(event)">' + mapBg() + '<div class="you" style="opacity:.35"></div>' +
+    (p ? '<div class="pinarea" style="left:' + p.l + "%;top:" + p.t + '%"></div><div class="pin" style="left:' + p.l + "%;top:" + p.t + '%"></div>' : "") + "</div>";
+}
+function tapPin(e) {
+  var r = document.getElementById("pm").getBoundingClientRect();
+  var px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+  UI.pin = { x: Math.round((px - 0.5) * 2 * 8 * 100) / 100, y: Math.round(-(py - 0.5) * 2 * 8 * 100) / 100 };
+  var p = pos(UI.pin.x, UI.pin.y, 8), m = document.getElementById("pm");
+  m.querySelectorAll(".pin,.pinarea").forEach(function (n) { n.remove(); });
+  m.insertAdjacentHTML("beforeend", '<div class="pinarea" style="left:' + p.l + "%;top:" + p.t + '%"></div><div class="pin" style="left:' + p.l + "%;top:" + p.t + '%"></div>');
+}
+function saveFarm() {
+  var n = (UI.fs.name || "").trim(), v = (UI.fs.village || "").trim();
+  if (!n || !v) return toast(t("needFarmName"));
+  if (!UI.pin) return toast(t("needPin"));
+  if (!st.farm) st.farm = { verified: false, vstate: "", clean: 0, rs: 0, rc: 0 };
+  st.farm.name = n; st.farm.village = v; st.farm.x = UI.pin.x; st.farm.y = UI.pin.y;
+  UI.fs = null; save(); go("f-home", true);
+}
+function vFPin() {
+  if (!UI.pinEdit) { UI.pin = st.farm ? { x: st.farm.x, y: st.farm.y } : null; UI.fs = { name: st.farm.name, village: st.farm.village }; UI.pinEdit = true; }
+  return vFarmSetup();
+}
+
+/* ------------------------------------------------------------ farmer: home */
+function farmerPending() {
+  var offers = 0, orders = 0;
+  st.listings.forEach(function (l) { if (l.fid !== "me") return; l.offers.forEach(function (o) { if (o.status === "pending") offers++; }); });
+  st.orders.forEach(function (o) { if (o.fid === "me" && ["placed", "confirmed", "ready"].indexOf(o.status) >= 0) orders++; });
+  return { offers: offers, orders: orders };
+}
+function vFHome() {
+  var f = st.farm, me = farmerOf("me"), lv = level(f.clean), need = 10 - (f.clean % 10), pend = farmerPending();
+  var mine = st.listings.filter(function (l) { return l.fid === "me"; }).sort(function (a, b) { return (a.status !== "active") - (b.status !== "active") || b.created - a.created; });
+  var active = mine.filter(function (l) { return l.status === "active" || l.status === "won"; }).length;
+  var u = unread();
+  var h = topbar(t("hello") + ", " + esc(firstName()), false, '<button class="ib" aria-label="Alerts" onclick="go(\'alerts\')">' + icon("bell") + (u ? '<span class="badge">' + u + "</span>" : "") + "</button>") + '<div class="wrap">' +
+    '<div class="card pad row" style="gap:12px"><div class="avatar">' + esc(f.name.charAt(0)) + '</div><div class="mid"><div class="b ell">' + esc(f.name) + '</div><div class="sm muted">' + esc(f.village) + " · " + stars(rating(me)) + " (" + f.rc + ")</div></div>" + (f.verified ? '<span class="pill p-g">' + icon("shield", "width:14px;height:14px") + t("verified") + "</span>" : "") + "</div>" +
+    '<div class="card pad mt12" style="background:#EDF6EA;border-color:#CFE3C7"><div class="row sb"><div><div class="sm b" style="color:#2F5E36">' + t("trustLevel").toUpperCase() + '</div><div style="font-size:30px;font-weight:800;color:#1F5C2A">' + t("level") + " " + lv + '</div></div><div style="text-align:right"><div style="font-size:24px;font-weight:800">' + f.clean + '</div><div class="sm muted">' + t("cleanSales") + "</div></div></div>" +
+    '<div class="prog mt12"><i style="width:' + ((f.clean % 10) * 10) + '%"></i></div><div class="sm mt8" style="color:#2F5E36">' + need + " " + t("nextLevel") + " " + (lv + 1) + "</div></div>" +
+    '<div class="row" style="gap:8px;margin-top:12px"><button class="card stat" onclick="go(\'f-home\')"><div class="v">' + active + '</div><div class="sm muted">' + t("activeListings") + '</div></button><button class="card stat" onclick="go(\'f-offers\',true)"><div class="v">' + pend.offers + '</div><div class="sm muted">' + t("pendingOffers") + '</div></button><button class="card stat" onclick="go(\'f-orders\',true)"><div class="v">' + pend.orders + '</div><div class="sm muted">' + t("toConfirm") + "</div></button></div>" +
+    reportCards() + '<div class="lab">' + t("myListings") + "</div>";
+  if (!mine.length) h += '<div class="card pad" style="text-align:center"><div style="font-size:40px">🌾</div><p class="muted mt8">' + t("noListings") + '</p><button class="btn mt12" onclick="go(\'f-add\',true)">' + icon("plus") + t("addListing") + "</button></div>";
+  mine.forEach(function (l) {
+    var b = topBid(l), live = l.status === "active" && !(l.mode === "auction" && l.ends <= now());
+    var sub = l.mode === "auction" ? (b ? t("topBid") + " " + money(b.amount) + " · " + l.bids.length + " " + t("bidsCount") : t("startBid") + " " + money(l.start)) : money(l.price) + "/" + un(l.unit);
+    var stp = live ? (l.mode === "auction" ? '<span class="sm cd" data-end="' + l.ends + '">' + left(l.ends - now()) + "</span>" : '<span class="sm muted">' + l.qty + " " + un(l.unit) + " " + t("left") + "</span>") : l.status === "won" ? '<span class="pill p-a">' + t("waitingWinner") + "</span>" : '<span class="pill p-n">' + (l.status === "sold" ? t("soldOut") : t("closed")) + "</span>";
+    h += '<div class="card pad" style="margin-bottom:10px"><div class="row" style="gap:12px">' + coverTile(l, 52) + '<div class="mid"><div class="b ell">' + vn(l.veg) + '</div><div class="sm muted ell">' + sub + '</div><div class="row" style="gap:6px;margin-top:5px;flex-wrap:wrap">' + modePill(l.mode) + stp + listingFlags(l) + "</div></div></div>" +
+      (live ? '<div class="btns"><button class="btn sec sm" style="flex:1" onclick="go(\'f-offers\',true)">' + t("bidsOffers") + '</button><button class="btn sec sm" aria-label="Photos" onclick="go(\'f-edit/' + l.id + '\')">📷</button><button class="btn warn sm" onclick="ask(\'closeListing\',function(){closeListing(\'' + l.id + '\')})">' + t("closeListing") + "</button></div>" : "") + "</div>";
+  });
+  h += '<div class="note b mt12">' + icon("info") + "<span>" + t("demoBanner") + "</span></div></div>";
+  return [h + '<div style="height:70px"></div>' + (mine.length ? '<button class="fab" onclick="go(\'f-add\',true)">' + icon("plus") + t("addListing") + "</button>" : ""), true, "f-home"];
+}
+function closeListing(id) { var l = L(id); if (l) l.status = "closed"; save(); render(true); }
+
+/* ------------------------------------------------------------ farmer: add listing */
+function newDraft() { return { veg: "", qty: "", unit: "kg", mode: "fixed", price: "", start: "", inc: 2, dur: 60, buyNow: "", reserve: "", del: false, charge: 20, km: 5, note: "" }; }
+function vFAdd() {
+  var d = UI.draft || (UI.draft = newDraft()); UI.mEditLid = null; d.media = d.media || [];
+  var fld = function (key, label, ph) { return '<label class="flab" for="d_' + key + '">' + label + '</label><input id="d_' + key + '" class="fld" inputmode="numeric" placeholder="' + (ph || "") + '" value="' + esc(d[key]) + '" oninput="UI.draft.' + key + '=this.value.replace(/\\D/g,\'\');this.value=UI.draft.' + key + '">'; };
+  var h = topbar(t("addListing")) + '<div class="wrap"><div class="lab" style="margin-top:4px">' + t("whatSell") + '</div>' + cropGrid(d) + mediaSection(d.media, UI.pubErr) +
+    '<div class="row" style="gap:10px"><div style="flex:1">' + fld("qty", t("quantity"), "50") + '</div><div style="width:140px"><label class="flab" for="d_unit">' + t("unit") + '</label><select id="d_unit" class="fld" onchange="UI.draft.unit=this.value;render(true)">' +
+    Object.keys(UNITS).map(function (u) { return '<option value="' + u + '"' + (d.unit === u ? " selected" : "") + ">" + un(u) + "</option>"; }).join("") + "</select></div></div>" +
+    '<div class="lab">' + t("howSell") + '</div><div class="seg">' + ["fixed", "auction", "nego"].map(function (m) { return '<button class="' + (d.mode === m ? "on" : "") + '" onclick="UI.draft.mode=\'' + m + '\';render(true)">' + (m === "fixed" ? (st.lang === "ta" ? "நிலை விலை" : "Fixed") : t(m)) + "</button>"; }).join("") + "</div>" +
+    '<p class="hint">' + t(d.mode + "D") + "</p>";
+  if (d.mode === "fixed") h += fld("price", t("price") + " " + un(d.unit) + " (₹)", "40");
+  if (d.mode === "nego") h += fld("price", t("askPrice") + " " + un(d.unit) + " (₹)", "40");
+  if (d.mode === "auction") {
+    h += '<div class="row" style="gap:10px"><div style="flex:1">' + fld("start", t("startBidPer") + " " + un(d.unit) + " (₹)", "30") + '</div><div style="width:120px">' + fld("inc", t("minInc") + " (₹)", "2") + "</div></div>" +
+      '<label class="flab">' + t("duration") + '</label><div class="chips" style="padding:0 0 4px">' + [[30, "30m"], [60, "1h"], [180, "3h"], [360, "6h"], [720, "12h"], [1440, "24h"]].map(function (x) { return '<button class="chip ' + (+d.dur === x[0] ? "on" : "") + '" onclick="UI.draft.dur=' + x[0] + ';render(true)">' + x[1] + "</button>"; }).join("") + "</div>" +
+      fld("buyNow", t("buyNowOpt"), "") + fld("reserve", t("reserveOpt"), "") + '<p class="hint">' + t("reserveHint") + "</p>";
+  }
+  h += '<div class="card pad mt16"><div class="row sb" style="gap:12px"><label for="d_del" class="mid"><span class="b" style="display:block">' + icon("truck", "width:18px;height:18px;vertical-align:-3px") + " " + t("offerDelivery") + '</span><span class="sm muted">' + t("offerDeliveryD") + '</span></label><input id="d_del" type="checkbox" class="sw" ' + (d.del ? "checked" : "") + ' onchange="UI.draft.del=this.checked;render(true)"></div>' +
+    (d.del ? '<div class="row" style="gap:10px"><div style="flex:1">' + fld("charge", t("charge"), "20") + '</div><div style="flex:1">' + fld("km", t("maxKm"), "5") + "</div></div>" : "") + "</div>" +
+    '<label class="flab" for="d_note">' + t("harvest") + '</label><textarea id="d_note" class="fld" maxlength="120" placeholder="' + t("notePh") + '" oninput="UI.draft.note=this.value">' + esc(d.note) + "</textarea>" +
+    '<button class="btn mt16"' + (livePhotos(d.media).length ? "" : ' style="opacity:.5"') + ' onclick="publish()">' + t("publish") + "</button>" +
+    (livePhotos(d.media).length ? "" : '<button class="btn sec mt8" onclick="openMediaSheet()">📷 ' + t("addAPhoto") + "</button>") + "</div>";
+  return [h, true, "f-add"];
+}
+function publish() {
+  var d = UI.draft, qty = parseInt(d.qty, 10);
+  var price = parseInt(d.price, 10), start = parseInt(d.start, 10);
+  if (!d.veg || !qty || (d.mode !== "auction" && !price) || (d.mode === "auction" && !start)) return toast(t("fillAll"));
+  if (!livePhotos(d.media).length) { UI.pubErr = true; render(true); toast(t("needPhoto")); var sl = document.querySelector(".slots"); if (sl) sl.scrollIntoView({ block: "center" }); return; }
+  var l = { id: uid(), fid: "me", veg: d.veg, mode: d.mode, qty: qty, unit: d.unit, note: d.note.trim(), created: now(), status: "active", bids: [], offers: [], media: d.media, reported: false,
+    del: d.del ? { on: true, charge: parseInt(d.charge, 10) || 0, km: parseInt(d.km, 10) || 5 } : { on: false, charge: 0, km: 0 } };
+  if (d.mode === "auction") { l.start = start; l.inc = Math.max(1, parseInt(d.inc, 10) || 1); l.ends = now() + d.dur * MIN; l.buyNow = parseInt(d.buyNow, 10) || 0; l.reserve = parseInt(d.reserve, 10) || 0; sched("simBid", rnd(8000, 14000), { lid: l.id, n: 0 }); }
+  else { l.price = price; sched(d.mode === "nego" ? "simOffer" : "simOrder", rnd(9000, 15000), { lid: l.id, n: 0 }); }
+  st.listings.unshift(l); UI.draft = null; UI.pubErr = false; save(); toast(t("published")); go("f-home", true);
+}
+
+/* ------------------------------------------------------------ farmer: offers and orders */
+function vFOffers() {
+  var mine = st.listings.filter(function (l) { return l.fid === "me" && (l.bids.length || l.offers.length); });
+  var h = topbar(t("bidsOffers")) + '<div class="wrap">';
+  if (!mine.length) h += '<div class="empty"><div class="e">🏷️</div>' + t("noOffers") + "</div>";
+  mine.forEach(function (l) {
+    h += '<div class="card pad" style="margin-bottom:12px"><div class="row" style="gap:12px">' + tile(l.veg, 48) + '<div class="mid"><div class="b">' + vn(l.veg) + " · " + l.qty + " " + un(l.unit) + '</div><div class="row" style="gap:6px;margin-top:4px">' + modePill(l.mode) +
+      (l.mode === "auction" ? (l.status === "active" && l.ends > now() ? '<span class="sm cd" data-end="' + l.ends + '">' + left(l.ends - now()) + "</span>" : l.status === "won" ? '<span class="pill p-a">' + t("waitingWinner") + "</span>" : '<span class="pill p-n">' + (l.status === "sold" ? t("soldOut") : t("ended")) + "</span>") : '<span class="sm muted">' + t("asking") + " " + money(l.price) + "</span>") + "</div></div></div>";
+    if (l.mode === "auction") {
+      h += l.bids.slice().sort(function (a, b) { return b.amount - a.amount; }).slice(0, 5).map(function (b, i) { return '<div class="kv"><span>' + (i === 0 ? "🏆 " : "") + esc(b.name) + " · " + ago(b.at) + "</span><span>" + money(b.amount) + "/" + un(l.unit) + "</span></div>"; }).join("");
+      if (l.reserve) h += '<p class="hint">' + (st.lang === "ta" ? "குறைந்தபட்ச விலை" : "Your reserve") + ": " + money(l.reserve) + "</p>";
+    } else {
+      l.offers.slice().reverse().forEach(function (o) {
+        h += '<div style="border-top:1px solid #EEF1EA;margin-top:10px;padding-top:10px"><div class="row sb"><span><b>' + esc(o.name) + '</b> <span class="sm muted">· ' + ago(o.at) + '</span></span><span class="b">' + money(o.amount) + "/" + un(l.unit) + " × " + o.qty + "</span></div>";
+        if (o.status === "pending" && l.status === "active") h += '<div class="btns"><button class="btn sm" style="flex:1" onclick="fAccept(\'' + l.id + "','" + o.id + '\')">' + t("accept") + '</button><button class="btn sec sm" style="flex:1" onclick="fCounter(\'' + l.id + "','" + o.id + '\')">' + t("counter") + '</button><button class="btn warn sm" onclick="fReject(\'' + l.id + "','" + o.id + '\')">' + t("reject") + "</button></div>";
+        else h += '<div class="mt8">' + ({ pending: '<span class="pill p-n">' + t("closed") + "</span>", countered: '<span class="pill p-a">' + t("countered") + " " + money(o.counter) + " · " + t("offerPending") + "</span>", accepted: '<span class="pill p-g">' + t("offerAccepted") + "</span>", rejected: '<span class="pill p-r">' + t("offerRejected") + "</span>" }[o.status]) + "</div>";
+        h += "</div>";
+      });
+    }
+    h += "</div>";
+  });
+  return [h + "</div>", true, "f-offers"];
+}
+function fAccept(lid, oid) {
+  var l = L(lid), o = findOffer(l, oid); if (!o || o.status !== "pending") return;
+  o.status = "accepted"; var q = Math.min(o.qty, l.qty);
+  newOrder(l, { qty: q, price: o.amount, src: "nego", buyer: "sim", buyerName: o.name, buyerPhone: "9" + rnd(100000000, 999999999), status: "confirmed", method: Math.random() < 0.4 && l.del.on ? "delivery" : "pickup" });
+  l.qty -= q; if (l.qty <= 0) { l.qty = 0; l.status = "sold"; }
+  save(); toast(t("orderMade")); render(true);
+}
+function fReject(lid, oid) { var o = findOffer(L(lid), oid); if (o) o.status = "rejected"; save(); render(true); }
+function fCounter(lid, oid) {
+  var l = L(lid), o = findOffer(l, oid);
+  openSheet('<div class="b" style="font-size:17px">' + t("counter") + " · " + esc(o.name) + '</div><p class="sm muted mt8">' + t("you") + ": " + money(l.price) + " · " + esc(o.name) + ": " + money(o.amount) + '</p><label class="flab" for="ctr">' + t("counterPrice") + " " + un(l.unit) + ' (₹)</label><input id="ctr" class="fld" inputmode="numeric" value="' + Math.round((l.price + o.amount) / 2) + '"><button class="btn mt16" onclick="sendCounter(\'' + lid + "','" + oid + '\')">' + t("sendCounter") + "</button>");
+}
+function sendCounter(lid, oid) {
+  var l = L(lid), o = findOffer(l, oid), v = parseInt(document.getElementById("ctr").value, 10);
+  if (!v) return;
+  o.status = "countered"; o.counter = v; sched("simCounterReply", rnd(5000, 9000), { lid: lid, oid: oid });
+  closeSheet(); save(); render(true);
+}
+function vFOrders() {
+  var os = st.orders.filter(function (o) { return o.fid === "me"; });
+  var h = topbar(t("orders")) + '<div class="wrap">';
+  if (!os.length) h += '<div class="empty"><div class="e">📦</div>' + t("noOrders") + "</div>";
+  os.forEach(function (o) {
+    var showContact = ["confirmed", "ready", "completed"].indexOf(o.status) >= 0;
+    h += '<div class="card pad" style="margin-bottom:12px"><div class="row" style="gap:12px">' + tile(o.veg, 48) + '<div class="mid"><div class="b">' + vn(o.veg) + " · " + o.qty + " " + un(o.unit) + '</div><div class="sm muted">#' + o.no + " · " + ago(o.at) + (o.src !== "fixed" ? " · " + (o.src === "auction" ? t("fromAuction") : t("fromOffer")) : "") + '</div></div><div style="text-align:right"><div class="b">' + money(o.total) + "</div>" + statusPill(o, true) + "</div></div>" +
+      '<div class="kv" style="margin-top:8px"><span>' + t("buyerLbl") + "</span><span>" + esc(o.buyerName) + (showContact ? ' · <a class="lnk" href="tel:+91' + esc(o.buyerPhone.replace(/\s/g, "")) + '">+91 ' + esc(o.buyerPhone) + "</a>" : "") + "</span></div>" +
+      '<div class="kv"><span>' + (o.method === "delivery" ? t("deliverTo") : t("pickup")) + "</span><span>" + (o.method === "delivery" ? (showContact ? esc(o.addr) : "🔒") : "✓") + "</span></div>";
+    if (o.status === "placed") h += '<p class="hint">' + t("confirmWithin2") + '</p><div class="btns"><button class="btn sm" style="flex:1" onclick="fOrd(\'' + o.id + '\',\'confirmed\')">' + t("confirm") + '</button><button class="btn warn sm" onclick="fOrd(\'' + o.id + '\',\'cancelled\')">' + t("reject") + "</button></div>";
+    if (o.status === "confirmed") h += '<div class="btns"><button class="btn sm" style="flex:1" onclick="fOrd(\'' + o.id + '\',\'ready\')">' + t("markReady") + "</button></div>";
+    if (o.status === "ready") h += '<div class="btns"><button class="btn sm" style="flex:1" onclick="fOrd(\'' + o.id + '\',\'completed\')">' + t("handedOver") + "</button></div>";
+    h += "</div>";
+  });
+  return [h + "</div>", true, "f-orders"];
+}
+function fOrd(id, s) {
+  var o = O(id); if (!o) return;
+  if (s === "completed") { completeOrder(o); if (Math.random() < 0.8) sched("simReview", rnd(4000, 8000), { oid: id }); }
+  else { o.status = s; o.hist[s] = now(); }
+  if (s === "cancelled") { var l = L(o.lid); if (l && o.src === "fixed") { l.qty += o.qty; if (l.status === "sold") l.status = "active"; } }
+  save(); render(true);
+}
+
+/* ------------------------------------------------------------ farmer: crop picker (4x5 grid, Others catalogue, Unlisted items) */
+function cropGrid(d) {
+  var inQ = QUICK.indexOf(d.veg) >= 0, isU = !!d.veg && d.veg.indexOf("u_") === 0, isO = !!d.veg && !inQ && !isU;
+  var h = '<div class="vgrid">' + QUICK.map(function (k) { return '<button class="vg ' + (d.veg === k ? "on" : "") + '" onclick="UI.draft.veg=\'' + k + '\';render(true)"><span class="e">' + VEG[k][0] + "</span>" + vn(k) + "</button>"; }).join("") +
+    '<button class="vg sp ' + (isO ? "on" : "") + '" onclick="go(\'f-crops\')"><span class="e">🗂️</span>' + t("others") + "</button>" +
+    '<button class="vg sp ' + (isU ? "on" : "") + '" onclick="openUnlisted()"><span class="e">✍️</span>' + t("unlisted") + "</button></div>";
+  if (d.veg && !inQ && VEG[d.veg]) h += '<div class="card row mt12" style="gap:12px;padding:10px 12px">' + tile(d.veg, 44) + '<div class="mid"><div class="sm muted">' + t("selectedCrop") + '</div><div class="b">' + esc(vn(d.veg)) + '</div></div><button class="btn sec sm" onclick="' + (isU ? "openUnlisted()" : "go(\'f-crops\')") + '">' + t("change") + "</button></div>";
+  return h;
+}
+function myItems() { return (st.custom || []).filter(function (c) { return !c.hidden; }); }
+function cropGroups() {
+  var g = CROPS.slice(), mine = myItems();
+  if (mine.length) g.push({ id: "mine", en: TX.myItems[0], ta: TX.myItems[1], e: "✍️", bg: "#E8ECE4", subs: [{ en: "", ta: "", items: mine.map(function (c) { return { id: c.id, n: c.n, q: "", e: c.e }; }) }] });
+  return g;
+}
+function gname(g) { return st.lang === "ta" ? g.ta : g.en; }
+function vFCrops() {
+  if (!UI.draft) UI.draft = newDraft();
+  var gs = cropGroups();
+  var h = '<div class="top" style="padding-bottom:8px"><button class="ib" aria-label="Back" onclick="back()">' + icon("back") + '</button><label class="fld row" style="gap:8px;color:#5C6A60;flex:1">' + icon("search") +
+    '<input type="search" id="cq" placeholder="' + t("searchCrops") + '" value="' + esc(UI.cq || "") + '" oninput="UI.cq=this.value;drawCrops()" style="border:0;background:none;outline:0;flex:1;min-width:0;font-weight:600"></label></div>' +
+    '<div class="wrap"><h1 style="font-size:20px;font-weight:800;margin:2px 0 4px">' + t("chooseCrop") + "</h1>" +
+    '<div class="lab" style="margin-top:10px">' + t("cropGroups") + '</div><div class="vgrid" id="cg">' + gs.map(function (g) {
+      var n = g.subs.reduce(function (a, s) { return a + s.items.length; }, 0);
+      return '<button class="vg" onclick="selGroup(\'' + g.id + '\')"><span class="e">' + g.e + "</span>" + gname(g) + '<span class="cnt">' + n + " " + t("crops") + "</span></button>";
+    }).join("") + '</div><div id="cl"></div></div>';
+  return [h, false, null, drawCrops];
+}
+function selGroup(id) {
+  UI.cg = id; UI.cq = "";
+  var q = document.getElementById("cq"); if (q) q.value = "";
+  drawCrops();
+  var el = document.getElementById("cl"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function cropRow(it, g, showGroup) {
+  var on = UI.draft && UI.draft.veg === it.id, sub = [it.q, showGroup ? gname(g) : ""].filter(Boolean).join(" · ");
+  return '<button class="card crow' + (on ? " on" : "") + '" onclick="pickCrop(\'' + it.id + '\')"><span class="tile" style="width:42px;height:42px;font-size:24px;background:' + g.bg + '">' + it.e + '</span><span class="mid"><span class="b" style="display:block;font-size:15px">' + esc(it.n) + "</span>" +
+    (sub ? '<span class="sm muted" style="display:block">' + esc(sub) + "</span>" : "") + "</span>" + (on ? '<span class="pill p-g">✓</span>' : icon("chev", "color:#5C6A60")) + "</button>";
+}
+function drawCrops() {
+  var el = document.getElementById("cl"); if (!el) return;
+  var q = (UI.cq || "").trim().toLowerCase(), gs = cropGroups(), h = "";
+  document.querySelectorAll("#cg .vg").forEach(function (b, i) { if (gs[i]) b.classList.toggle("on", !q && UI.cg === gs[i].id); });
+  if (q) {
+    var res = [];
+    gs.forEach(function (g) { g.subs.forEach(function (s) { s.items.forEach(function (it) { if ((it.n + " " + it.q + " " + s.en + " " + g.en + " " + g.ta).toLowerCase().indexOf(q) >= 0) res.push([it, g]); }); }); });
+    h += '<div class="lab">' + res.length + " " + t("results") + "</div>";
+    h += res.length ? res.map(function (x) { return cropRow(x[0], x[1], true); }).join("")
+      : '<div class="empty" style="padding:24px 10px"><div class="e">🔍</div>' + t("noMatch") + '<div class="mt12"><button class="btn sm" style="margin:0 auto" onclick="openUnlisted(document.getElementById(\'cq\').value)">✍️ ' + t("addUnlistedBtn") + "</button></div></div>";
+  } else {
+    var g = gs.filter(function (x) { return x.id === UI.cg; })[0];
+    if (!g) h += '<div class="note b mt16">' + icon("info") + "<span>" + t("tapGroup") + "</span></div>";
+    else {
+      h += '<div class="lab" style="color:#1F5C2A;font-size:13px">' + g.e + " " + esc(gname(g)) + "</div>";
+      g.subs.forEach(function (s) { if (s.en) h += '<div class="sm b" style="margin:14px 0 6px;color:#5C6A60">' + esc(st.lang === "ta" ? s.ta : s.en) + "</div>"; h += s.items.map(function (it) { return cropRow(it, g, false); }).join(""); });
+    }
+  }
+  el.innerHTML = h + '<div style="height:24px"></div>';
+}
+function pickCrop(id) { UI.draft = UI.draft || newDraft(); UI.draft.veg = id; UI.cq = ""; save(); back(); }
+function cleanName(v) { return String(v || "").replace(/[<>&"'`\\]/g, "").replace(/\s+/g, " ").trim().slice(0, 40); }
+function openUnlisted(prefill) {
+  UI.draft = UI.draft || newDraft(); UI.ue = UI.ue || "🌱";
+  if (prefill != null) UI.un = cleanName(prefill);
+  var cur = document.getElementById("un"); if (cur && prefill == null) UI.un = cur.value;
+  var mine = myItems(), full = mine.length >= 5;
+  var h = '<div class="row sb"><div class="b" style="font-size:18px">' + t("unlistedTitle") + '</div><span class="pill ' + (full ? "p-r" : "p-g") + '">' + mine.length + " / 5</span></div>" +
+    '<p class="sm muted mt8">' + t("unlistedHint") + "</p>";
+  if (mine.length) h += '<div class="lab">' + t("myItems") + '</div><div class="card">' + mine.map(function (c) {
+    return '<div class="item" style="gap:10px"><span style="font-size:24px">' + c.e + '</span><span class="t">' + esc(c.n) + '</span><button class="btn sm" style="height:36px" onclick="selUnlisted(\'' + c.id + '\')">' + t("select") + '</button><button class="ib" style="width:36px;height:36px" aria-label="' + t("remove") + '" onclick="delUnlisted(\'' + c.id + '\')">🗑️</button></div>';
+  }).join("") + "</div>";
+  if (full) h += '<div class="note a mt12">' + icon("info") + "<span>" + t("maxItems") + "</span></div>";
+  else h += '<label class="flab" for="un">' + t("itemName") + '</label><input id="un" class="fld" maxlength="40" placeholder="' + t("itemPh") + '" value="' + esc(UI.un || "") + '" oninput="UI.un=this.value">' +
+    '<label class="flab">' + t("pickIcon") + '</label><div class="row" style="flex-wrap:wrap;gap:6px">' + UEMO.map(function (e) { return '<button class="emo' + (UI.ue === e ? " on" : "") + '" onclick="UI.ue=\'' + e + '\';openUnlisted()">' + e + "</button>"; }).join("") + "</div>" +
+    '<button class="btn mt16" onclick="addUnlisted()">' + t("addItem") + "</button>";
+  openSheet(h);
+}
+function addUnlisted() {
+  var n = cleanName(document.getElementById("un").value);
+  if (!n) return toast(t("needItem"));
+  var mine = myItems();
+  if (mine.length >= 5) return toast(t("maxItems"));
+  if (mine.some(function (c) { return c.n.toLowerCase() === n.toLowerCase(); })) return toast(t("dupItem"));
+  var c = { id: "u_" + uid(), n: n, e: UI.ue || "🌱" };
+  st.custom.push(c); VEG[c.id] = [c.e, "#E8ECE4", c.n, c.n];
+  UI.un = ""; selUnlisted(c.id);
+}
+function selUnlisted(id) {
+  UI.draft = UI.draft || newDraft(); UI.draft.veg = id; save(); closeSheet();
+  if ((location.hash || "").indexOf("#f-crops") === 0) back(); else render(true);
+}
+function delUnlisted(id) {
+  st.custom.forEach(function (c) { if (c.id === id) c.hidden = true; });
+  if (UI.draft && UI.draft.veg === id) UI.draft.veg = "";
+  save(); UI.un = UI.un || ""; openUnlisted("" + (UI.un || ""));
+  if ((location.hash || "").indexOf("#f-crops") === 0) drawCrops(); else render(true);
+}
+
+/* ============================================================ MEDIA: photos (max 3, 1 required) + 1 silent video (max 10 s) */
+var MTX = {
+  photosVideo: ["Photos and video", "படங்களும் வீடியோவும்"], photosN: ["photos", "படங்கள்"], videoN: ["video", "வீடியோ"],
+  coverPhoto: ["Cover photo", "முதன்மைப் படம்"], required: ["Required", "கட்டாயம்"], photo: ["Photo", "படம்"], videoSlot: ["Video", "வீடியோ"], tenSec: ["10 sec", "10 வினாடி"],
+  mediaHint: ["At least 1 photo is required. Clear daylight photos of your actual harvest help buyers trust you.", "குறைந்தது 1 படம் கட்டாயம். பகலில் எடுத்த தெளிவான உண்மையான அறுவடைப் படங்கள் நம்பிக்கை தரும்."],
+  mediaHint2: ["Tap a photo to make it the cover or remove it.", "முதன்மைப் படமாக்க அல்லது நீக்க படத்தைத் தொடவும்."],
+  addMedia: ["Add photos or video", "படங்கள் அல்லது வீடியோ சேர்"], addMediaSub: ["3 photos and 1 short video per listing", "ஒரு பட்டியலுக்கு 3 படங்கள், 1 சிறிய வீடியோ"],
+  takePhoto: ["Take a photo", "படம் எடு"], takePhotoD: ["Opens your camera", "கேமராவைத் திறக்கும்"],
+  recVideo: ["Record a video", "வீடியோ பதிவு செய்"], recVideoD: ["Up to 10 seconds, no sound, stops on its own", "10 வினாடி வரை, ஒலி இல்லை, தானாக நிற்கும்"],
+  galPhotos: ["Photos from gallery", "கேலரியிலிருந்து படங்கள்"], galPhotosD: ["Pick up to 3 photos you already took", "ஏற்கனவே எடுத்த 3 படங்கள் வரை"],
+  galVideo: ["Video from gallery", "கேலரியிலிருந்து வீடியோ"], galVideoD: ["Longer videos can be trimmed to 10 seconds", "நீண்ட வீடியோவை 10 வினாடியாகக் குறைக்கலாம்"],
+  pickerPriv: ["The app only receives the photos you pick. It can't browse your gallery.", "நீங்கள் தேர்ந்தெடுக்கும் படங்களை மட்டுமே ஆப் பெறும். உங்கள் கேலரியைப் பார்க்க முடியாது."],
+  full: ["Added", "சேர்க்கப்பட்டது"], photoLimit: ["You can add up to 3 photos. Remove one to add another.", "அதிகபட்சம் 3 படங்கள். புதியதைச் சேர்க்க ஒன்றை நீக்கவும்."],
+  videoLimit: ["Only 1 video per listing. Remove it to add another.", "ஒரு பட்டியலுக்கு 1 வீடியோ மட்டும். புதியதற்கு இதை நீக்கவும்."],
+  extraSkipped: ["Only 3 photos per listing. Extra photos were skipped.", "ஒரு பட்டியலுக்கு 3 படங்கள் மட்டும். மீதி தவிர்க்கப்பட்டது."],
+  needPhoto: ["Add at least 1 photo to publish. A video alone is not enough.", "வெளியிட குறைந்தது 1 படம் சேர்க்கவும். வீடியோ மட்டும் போதாது."],
+  addAPhoto: ["Add a photo", "படம் சேர்"], cover: ["Cover", "முதன்மை"], makeCover: ["Make cover photo", "முதன்மைப் படமாக்கு"], removeM: ["Remove", "நீக்கு"],
+  photoOf: ["Photo", "படம்"], of3: ["of 3", "/ 3"], tipPhoto: ["Fill the frame with your produce, in daylight", "பகலில், உங்கள் விளைபொருள் முழுவதும் தெரியும்படி எடுங்கள்"],
+  tipVideo: ["Recording stops automatically at 10 seconds", "10 வினாடியில் பதிவு தானாக நிற்கும்"], noSound: ["No sound", "ஒலி இல்லை"],
+  camOff: ["Camera is turned off for FD Farmer", "FD Farmer-க்கு கேமரா அனுமதி இல்லை"],
+  camOffD: ["Camera permission was not given. To take photos in the app, turn it on in Settings:", "கேமரா அனுமதி வழங்கப்படவில்லை. ஆப்பில் படம் எடுக்க அமைப்புகளில் இயக்கவும்:"],
+  camPath: ["Settings → Apps → FD Farmer → Permissions → Camera → Allow", "அமைப்புகள் → ஆப்ஸ் → FD Farmer → அனுமதிகள் → கேமரா → அனுமதி"],
+  openSettings: ["Open Settings", "அமைப்புகளைத் திற"], useGallery: ["Choose from gallery instead", "பதிலாக கேலரியிலிருந்து தேர்ந்தெடு"], galNoPerm: ["Gallery doesn't need any permission.", "கேலரிக்கு எந்த அனுமதியும் தேவையில்லை."],
+  noCamera: ["No camera found on this phone", "இந்தக் கைபேசியில் கேமரா இல்லை"], trimTitle: ["Trim video", "வீடியோவைக் குறை"],
+  trimText: ["This video is %s sec. Slide to choose the best 10 seconds.", "இந்த வீடியோ %s வினாடி. சிறந்த 10 வினாடிகளைத் தேர்ந்தெடுக்க நகர்த்தவும்."],
+  trimNote: ["Sound is removed. The clip is made smaller (720p) to save mobile data.", "ஒலி நீக்கப்படும். மொபைல் டேட்டா சேமிக்க வீடியோ சிறிதாக்கப்படும் (720p)."],
+  useClip: ["Use this clip", "இந்தப் பகுதியைப் பயன்படுத்து"], preparing: ["Preparing video…", "வீடியோ தயாராகிறது…"],
+  photoFail: ["This photo couldn't be read. Try another photo (JPEG or PNG).", "இந்தப் படத்தைப் படிக்க முடியவில்லை. வேறு படத்தை (JPEG/PNG) முயற்சிக்கவும்."],
+  photoHeic: ["This photo is in HEIF/HEIC format, which can't be read. In your camera settings turn off HEIF, or pick a JPEG photo.", "இந்தப் படம் HEIF/HEIC வடிவத்தில் உள்ளது. கேமரா அமைப்புகளில் HEIF-ஐ நிறுத்தவும் அல்லது JPEG படத்தைத் தேர்ந்தெடுக்கவும்."],
+  addingPhotos: ["Adding photos…", "படங்கள் சேர்க்கப்படுகின்றன…"], camNotReady: ["Camera is starting. Try again in a moment.", "கேமரா தொடங்குகிறது. சிறிது நேரத்தில் மீண்டும் முயற்சிக்கவும்."],
+  videoFail: ["This video couldn't be read. Try another one.", "இந்த வீடியோவைப் படிக்க முடியவில்லை. வேறொன்றை முயற்சிக்கவும்."],
+  photoAdded: ["Photo added", "படம் சேர்க்கப்பட்டது"], videoAdded: ["Video added", "வீடியோ சேர்க்கப்பட்டது"],
+  editMedia: ["Edit photos and video", "படங்கள், வீடியோவைத் திருத்து"], done: ["Done", "முடிந்தது"],
+  replaceTitle: ["Please replace a photo", "ஒரு படத்தை மாற்றவும்"], replaceText: ["A buyer reported photo %n on your %v listing: “%r”.", "உங்கள் %v பட்டியலில் படம் %n பற்றி வாங்குபவர் புகார் அளித்தார்: “%r”."],
+  reportsLbl: ["Reports", "புகார்கள்"], of5: ["of 5", "/ 5"], autoRemove: ["At 5 reports this photo is removed automatically.", "5 புகார்களில் இந்தப் படம் தானாக நீக்கப்படும்."],
+  replacePhoto: ["Replace photo", "படத்தை மாற்று"], viewM: ["View", "பார்"], photoReported: ["photo reported", "படம் புகாரில்"],
+  removedReported: ["Photo removed (reported)", "படம் நீக்கப்பட்டது (புகார்)"], liveReported: ["Live · reported", "செயலில் · புகார்"],
+  removedNote: ["A photo was removed after 5 buyer reports. Your listing stays live; buyers see it marked as reported until you add a new photo.", "5 புகார்களுக்குப் பிறகு ஒரு படம் நீக்கப்பட்டது. உங்கள் பட்டியல் செயலில் இருக்கும்; புதிய படம் சேர்க்கும் வரை புகார் எனக் காட்டப்படும்."],
+  removedSlot: ["Removed", "நீக்கப்பட்டது"], addNewPhoto: ["Add a new photo", "புதிய படம் சேர்"], askReview: ["Ask for a review", "மறுஆய்வு கோரு"], reviewAsked: ["Review requested. Our team will check the removed photo.", "மறுஆய்வு கோரப்பட்டது. எங்கள் குழு சரிபார்க்கும்."],
+  mistake: ["Think this was a mistake?", "தவறு என்று நினைக்கிறீர்களா?"], nReports: ["reports", "புகார்கள்"],
+  n_report: ["A buyer reported photo %n of %v. Please replace it.", "%v படம் %n பற்றி புகார். தயவுசெய்து மாற்றவும்."], n_takedown: ["Photo %n of %v was removed after 5 reports.", "5 புகார்களுக்குப் பிறகு %v படம் %n நீக்கப்பட்டது."],
+  demoTools: ["Demo tools", "டெமோ கருவிகள்"], simReport: ["Simulate a buyer report on my photo", "என் படத்தில் வாங்குபவர் புகாரை உருவகப்படுத்து"], noPhotoToReport: ["Publish a listing with a photo first", "முதலில் படத்துடன் ஒரு பட்டியலை வெளியிடவும்"],
+  reportPhoto: ["Report photo", "படத்தைப் புகாரளி"], reportTitle: ["Report this photo", "இந்தப் படத்தைப் புகாரளி"], whatWrong: ["What's wrong with it?", "இதில் என்ன பிரச்சனை?"],
+  rr1: ["Not the actual produce", "உண்மையான விளைபொருள் இல்லை"], rr2: ["Blurry or unclear", "மங்கலாக / தெளிவில்லை"], rr3: ["Old or misleading", "பழையது / தவறாக வழிநடத்துவது"], rr4: ["Inappropriate", "பொருத்தமற்றது"],
+  reportNote: ["The farmer is asked to replace the photo. After 5 reports it is removed automatically.", "விவசாயியிடம் படத்தை மாற்றச் சொல்லப்படும். 5 புகார்களுக்குப் பிறகு தானாக நீக்கப்படும்."],
+  sendReport: ["Send report", "புகார் அனுப்பு"], reported1: ["Thanks. The farmer has been asked to replace this photo.", "நன்றி. விவசாயியிடம் இந்தப் படத்தை மாற்றச் சொல்லப்பட்டது."],
+  reportedDone: ["Reported", "புகாரளிக்கப்பட்டது"], takenDown: ["Thanks. This photo had 5 reports and has been removed.", "நன்றி. 5 புகார்கள் வந்ததால் இந்தப் படம் நீக்கப்பட்டது."],
+  byFarmer: ["Photos and video by the farmer", "விவசாயி எடுத்த படங்கள், வீடியோ"], sampleNote: ["Demo photos", "டெமோ படங்கள்"], close: ["Close", "மூடு"]
+};
+Object.keys(MTX).forEach(function (k) { TX[k] = MTX[k]; });
+function tf(k, map) { var s = t(k); Object.keys(map || {}).forEach(function (x) { s = s.split("%" + x).join(map[x]); }); return s; }
+var MAXP = 3, MAXV = 1, VSEC = 10;
+
+/* ---------- storage (IndexedDB, with in-memory fallback) */
+var IDB = null, MURL = {};
+function idbOpen() {
+  return new Promise(function (res) {
+    var done = false, fin = function () { if (!done) { done = true; res(); } };
+    try {
+      var r = indexedDB.open("fd_media", 1);
+      r.onupgradeneeded = function () { r.result.createObjectStore("m"); };
+      r.onsuccess = function () { IDB = r.result; var keys = [], seen = {};
+        try {
+          var tx = IDB.transaction("m", "readonly"), cur = tx.objectStore("m").openCursor();
+          cur.onsuccess = function (e) { var c = e.target.result; if (c) { MURL[c.key] = URL.createObjectURL(c.value); c.continue(); } else fin(); };
+          cur.onerror = fin;
+        } catch (e) { fin(); }
+      };
+      r.onerror = fin;
+    } catch (e) { fin(); }
+    setTimeout(fin, 2500);
+  });
+}
+function mPut(id, blob) {
+  MURL[id] = URL.createObjectURL(blob);
+  if (!IDB) return Promise.resolve();
+  return new Promise(function (res) { try { var tx = IDB.transaction("m", "readwrite"); tx.objectStore("m").put(blob, id); tx.oncomplete = res; tx.onerror = res; } catch (e) { res(); } });
+}
+function mDel(id) { delete MURL[id]; delete MURL[id + "_t"]; if (!IDB) return; try { var s = IDB.transaction("m", "readwrite").objectStore("m"); s.delete(id); s.delete(id + "_t"); } catch (e) {} }
+function mUrl(id) { return MURL[id] || ""; }
+function mCleanup() {
+  if (!IDB) return;
+  var used = {};
+  st.listings.forEach(function (l) { (l.media || []).forEach(function (m) { used[m.id] = 1; used[m.id + "_t"] = 1; }); });
+  if (UI.draft && UI.draft.media) UI.draft.media.forEach(function (m) { used[m.id] = 1; used[m.id + "_t"] = 1; });
+  Object.keys(MURL).forEach(function (k) { if (!used[k]) mDel(k); });
+}
+
+/* ---------- media target: the draft being added, or an existing listing being edited */
+function mTarget() {
+  if (UI.mEditLid) { var l = L(UI.mEditLid); if (l) { l.media = l.media || []; return l.media; } }
+  UI.draft = UI.draft || newDraft(); UI.draft.media = UI.draft.media || []; return UI.draft.media;
+}
+function livePhotos(arr) { return (arr || []).filter(function (m) { return m.kind === "photo" && m.status !== "removed"; }); }
+function liveVideo(arr) { return (arr || []).filter(function (m) { return m.kind === "video" && m.status !== "removed"; })[0]; }
+function addMediaItem(kind, blob, thumb, dur) {
+  var arr = mTarget(), id = "m" + uid();
+  if (kind === "photo" && livePhotos(arr).length >= MAXP) { toast(t("photoLimit")); return Promise.resolve(false); }
+  if (kind === "video" && liveVideo(arr)) { toast(t("videoLimit")); return Promise.resolve(false); }
+  var item = { id: id, kind: kind, status: "live", reports: [], at: now() };
+  if (dur) item.dur = Math.round(dur * 10) / 10;
+  arr.push(item);
+  if (UI.mEditLid) { var l = L(UI.mEditLid); if (l && livePhotos(l.media).length) l.reported = false; save(); }
+  UI.pubErr = false;
+  return mPut(id, blob).then(function () { return thumb ? mPut(id + "_t", thumb) : null; }).then(function () { return true; });
+}
+function removeMedia(id) {
+  var arr = mTarget();
+  for (var i = 0; i < arr.length; i++) if (arr[i].id === id) { arr.splice(i, 1); break; }
+  mDel(id); if (UI.mEditLid) save(); closeSheet(); render(true);
+}
+function makeCover(id) {
+  var arr = mTarget(), i = -1;
+  arr.forEach(function (m, k) { if (m.id === id) i = k; });
+  if (i > 0) { var m = arr.splice(i, 1)[0]; arr.unshift(m); }
+  if (UI.mEditLid) save(); closeSheet(); render(true);
+}
+
+/* ---------- slots (used by Add listing and Edit listing) */
+function mediaSection(arr, err) {
+  var ph = livePhotos(arr), vd = liveVideo(arr), ok = ph.length >= 1;
+  var h = '<div class="row sb" style="margin:20px 0 8px"><div class="lab" style="margin:0">' + t("photosVideo") + '</div><span class="sm b" style="color:' + (ok ? "#1F5C2A" : "#5C6A60") + '">' + ph.length + "/" + MAXP + " " + t("photosN") + " · " + (vd ? 1 : 0) + "/" + MAXV + " " + t("videoN") + "</span></div>";
+  h += '<div class="slots">';
+  for (var i = 0; i < MAXP; i++) {
+    var m = ph[i];
+    if (m) h += '<button class="slot fill" onclick="photoMenu(\'' + m.id + '\')"><img src="' + mUrl(m.id) + '" alt="">' + (i === 0 ? '<span class="badge2">' + t("cover") + "</span>" : "") + (m.reports && m.reports.length ? '<span class="rbadge">⚠ ' + m.reports.length + "/5</span>" : "") + '<span class="x" aria-hidden="true">⋯</span></button>';
+    else if (i === ph.length) h += '<button class="slot ' + (i === 0 ? "cover" : "") + (i === 0 && err ? " err" : "") + '" onclick="openMediaSheet()"><span class="pl">' + (i === 0 ? "📷" : "＋") + "</span>" + (i === 0 ? t("coverPhoto") + '<span class="req">' + t("required") + "</span>" : t("photo") + " " + (i + 1)) + "</button>";
+    else h += '<button class="slot" onclick="openMediaSheet()"><span class="pl">＋</span>' + t("photo") + " " + (i + 1) + "</button>";
+  }
+  if (vd) h += '<button class="slot fill" onclick="go(\'play/' + vd.id + '\')">' + (mUrl(vd.id + "_t") ? '<img src="' + mUrl(vd.id + "_t") + '" alt="">' : "") + '<span class="playc">▶</span><span class="dur">0:' + ("0" + Math.round(vd.dur || 10)).slice(-2) + '</span><span class="x" onclick="event.stopPropagation();removeMedia(\'' + vd.id + '\')">✕</span></button>';
+  else h += '<button class="slot vid" onclick="openMediaSheet()"><span class="pl">🎥</span>' + t("videoSlot") + "<br>" + t("tenSec") + "</button>";
+  h += "</div>";
+  if (err) h += '<div class="note r mt12">' + icon("info") + "<span><b>" + t("needPhoto") + "</b></span></div>";
+  else h += '<p class="hint">' + (ph.length ? t("mediaHint2") : t("mediaHint")) + "</p>";
+  return h;
+}
+function photoMenu(id) {
+  var arr = mTarget(), ph = livePhotos(arr), first = ph.length && ph[0].id === id;
+  openSheet('<div class="photo-big"><img src="' + mUrl(id) + '" alt=""></div><div class="btns">' + (first ? "" : '<button class="btn sm" style="flex:1" onclick="makeCover(\'' + id + '\')">⭐ ' + t("makeCover") + "</button>") +
+    '<button class="btn warn sm" style="flex:1" onclick="removeMedia(\'' + id + '\')">🗑️ ' + t("removeM") + '</button></div><button class="btn sec mt8" onclick="closeSheet()">' + t("close") + "</button>");
+}
+function openMediaSheet() {
+  var arr = mTarget(), pf = livePhotos(arr).length >= MAXP, vf = !!liveVideo(arr);
+  var row = function (fn, emoji, bg, title, sub, disabled) {
+    return '<button class="opt"' + (disabled ? ' disabled style="opacity:.45"' : "") + ' onclick="' + fn + '"><span class="oi" style="background:' + bg + '">' + emoji + '</span><span class="mid"><span class="b" style="display:block">' + title + '</span><span class="sm muted">' + (disabled ? t("full") + " ✓" : sub) + "</span></span>" + icon("chev", "color:#5C6A60") + "</button>";
+  };
+  openSheet('<div class="b" style="font-size:18px">' + t("addMedia") + '</div><p class="sm muted mt8">' + t("addMediaSub") + "</p><div>" +
+    row("closeSheet();go('cam/photo')", "📷", "#DDEFD9", t("takePhoto"), t("takePhotoD"), pf) +
+    row("closeSheet();go('cam/video')", "🎥", "#FCE8C4", t("recVideo"), t("recVideoD"), vf) +
+    row("pickPhotos()", "🖼️", "#DCEAF8", t("galPhotos"), t("galPhotosD"), pf) +
+    row("pickVideo()", "🎞️", "#E6D9EF", t("galVideo"), t("galVideoD"), vf) +
+    '</div><div class="note b mt12">' + icon("lock") + "<span>" + t("pickerPriv") + "</span></div>");
+}
+
+/* ---------- gallery (system picker via <input type=file>; no storage permission) */
+function fileInput(accept, multiple, cb) {
+  var inp = document.createElement("input");
+  inp.type = "file"; inp.accept = accept; if (multiple) inp.multiple = true; inp.style.display = "none";
+  inp.onchange = function () { var fs = Array.prototype.slice.call(inp.files || []); inp.remove(); if (fs.length) cb(fs); };
+  document.body.appendChild(inp); inp.click();
+}
+function pickPhotos() {
+  closeSheet();
+  fileInput("image/*", true, function (files) {
+    var room = MAXP - livePhotos(mTarget()).length, use = files.slice(0, Math.max(0, room));
+    if (files.length > room) toast(t("extraSkipped"));
+    var p = Promise.resolve(), added = 0;
+    busy(true, t("addingPhotos"));
+    var failMsg = "";
+    use.forEach(function (f) { p = p.then(function () { return imageToJpeg(f, true).then(function (b) { if (!b) { failMsg = /heic|heif/i.test((f.type || "") + " " + (f.name || "")) ? t("photoHeic") : t("photoFail"); return null; } return addMediaItem("photo", b).then(function (ok) { if (ok) added++; }); }); }); });
+    p.catch(function () {}).then(function () { busy(false); if (failMsg) toast(failMsg); else if (added) toast(t("photoAdded") + " (" + livePhotos(mTarget()).length + "/" + MAXP + ")"); render(true); });
+  });
+}
+function imageToJpeg(file, quiet) {
+  // Redraw on a canvas: resizes to max 1600 px and drops all metadata (including GPS location).
+  var draw = function (src, w, h) {
+    var sc = Math.min(1, 1600 / Math.max(w, h)), c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(w * sc)); c.height = Math.max(1, Math.round(h * sc));
+    c.getContext("2d").drawImage(src, 0, 0, c.width, c.height);
+    return new Promise(function (res) { c.toBlob(function (b) { res(b); }, "image/jpeg", 0.85); });
+  };
+  var viaImg = function () {
+    return new Promise(function (res) {
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function () { draw(img, img.naturalWidth, img.naturalHeight).then(function (b) { URL.revokeObjectURL(url); res(b); }, function () { res(null); }); };
+      img.onerror = function () { URL.revokeObjectURL(url); res(null); };
+      img.src = url;
+    });
+  };
+  var viaBitmap = function () {
+    // Big camera photos (50 MP+) are decoded straight to a smaller size to save memory.
+    var big = file.size > 1500000, opt = big ? { resizeWidth: 1600, resizeQuality: "high", imageOrientation: "from-image" } : { imageOrientation: "from-image" };
+    return createImageBitmap(file, opt).then(function (bm) { return draw(bm, bm.width, bm.height).then(function (b) { try { bm.close(); } catch (e) {} return b; }); });
+  };
+  var p = window.createImageBitmap ? viaBitmap().catch(viaImg) : viaImg();
+  return p.catch(function () { return null; }).then(function (b) {
+    if (!b && !quiet) toast(/heic|heif/i.test((file.type || "") + " " + (file.name || "")) ? t("photoHeic") : t("photoFail"));
+    return b;
+  });
+}
+function pickVideo() {
+  closeSheet();
+  fileInput("video/*", false, function (files) {
+    var f = files[0], v = document.createElement("video");
+    v.preload = "metadata"; v.muted = true; v.src = URL.createObjectURL(f);
+    v.onloadedmetadata = function () {
+      var d = v.duration;
+      if (!isFinite(d) || d <= 0) d = 0;
+      UI.trim = { url: v.src, dur: d, start: 0 };
+      if (d > VSEC + 0.4) go("trim");
+      else convertClip(0, d || VSEC);
+    };
+    v.onerror = function () { toast(t("videoFail")); };
+  });
+}
+function vTrim() {
+  var T = UI.trim; if (!T) { setTimeout(back, 0); return [topbar(t("trimTitle"), true), false]; }
+  var max = Math.max(0, T.dur - VSEC), s = Math.min(T.start, max);
+  var h = topbar(t("trimTitle"), true) + '<div class="wrap"><div class="trimbox"><video id="tv" src="' + T.url + '#t=' + s.toFixed(1) + '" muted playsinline preload="auto"></video><button class="playc big" onclick="trimPreview()">▶</button></div>' +
+    '<p class="mt12" style="font-size:14.5px">' + tf("trimText", { s: Math.round(T.dur) }) + "</p>" +
+    '<input id="tr" type="range" class="range" min="0" max="' + max.toFixed(1) + '" step="0.1" value="' + s.toFixed(1) + '" oninput="trimMove(this.value)">' +
+    '<div class="row sb mt8 sm muted"><span>0:00</span><span class="b" id="trl" style="color:#7A4D06">' + fmtS(s) + " – " + fmtS(s + VSEC) + " · 10 sec</span><span>" + fmtS(T.dur) + "</span></div>" +
+    '<div class="note a mt12">' + icon("info") + "<span>" + t("trimNote") + '</span></div><button class="btn mt16" onclick="convertClip(UI.trim.start, ' + VSEC + ')">' + t("useClip") + "</button></div>";
+  return [h, false];
+}
+function fmtS(x) { x = Math.max(0, Math.round(x)); return Math.floor(x / 60) + ":" + ("0" + (x % 60)).slice(-2); }
+function trimMove(v) {
+  UI.trim.start = +v; var el = document.getElementById("trl"); if (el) el.textContent = fmtS(+v) + " – " + fmtS(+v + VSEC) + " · 10 sec";
+  var tv = document.getElementById("tv"); if (tv) { tv.pause(); tv.currentTime = +v; }
+}
+function trimPreview() {
+  var tv = document.getElementById("tv"); if (!tv) return;
+  tv.currentTime = UI.trim.start; tv.play();
+  var stopAt = UI.trim.start + VSEC; tv.ontimeupdate = function () { if (tv.currentTime >= stopAt) tv.pause(); };
+}
+function recMime() {
+  var c = ["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm", "video/mp4"];
+  for (var i = 0; i < c.length; i++) if (window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(c[i])) return c[i];
+  return "";
+}
+function busy(on, text) {
+  var el = document.getElementById("busy");
+  if (!on) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement("div"); el.id = "busy"; document.body.appendChild(el); }
+  el.innerHTML = '<div class="busybox"><div class="spin"></div><div class="b mt12">' + text + "</div></div>";
+}
+function convertClip(start, len) {
+  // Re-encode through a canvas: keeps only the chosen seconds, drops the sound, caps size at 720p.
+  var src = UI.trim ? UI.trim.url : null; if (!src) return;
+  var v = document.createElement("video"); v.muted = true; v.playsInline = true; v.src = src; v.preload = "auto";
+  var stopped = false;
+  busy(true, t("preparing"));
+  v.onloadeddata = function () {
+    v.currentTime = start;
+    v.onseeked = function () {
+      v.onseeked = null;
+      var w = v.videoWidth || 1280, hh = v.videoHeight || 720, s = Math.min(1, 1280 / Math.max(w, hh)), c = document.createElement("canvas");
+      c.width = Math.round(w * s / 2) * 2; c.height = Math.round(hh * s / 2) * 2;
+      var g = c.getContext("2d"), stream = c.captureStream(30), chunks = [], mime = recMime(), thumb = null;
+      var rec; try { rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 1800000 } : { videoBitsPerSecond: 1800000 }); } catch (e) { busy(false); toast(t("videoFail")); return; }
+      rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = function () {
+        busy(false);
+        var dur = Math.min(len, Math.max(0.5, v.currentTime - start));
+        addMediaItem("video", new Blob(chunks, { type: mime || "video/webm" }), thumb, Math.min(VSEC, dur)).then(function (ok) { if (ok) toast(t("videoAdded")); UI.trim = null; if ((location.hash || "").indexOf("#trim") === 0) back(); else render(true); });
+      };
+      var draw = function () {
+        if (stopped) return;
+        g.drawImage(v, 0, 0, c.width, c.height);
+        if (!thumb && v.currentTime > start + 0.05) { thumb = "pending"; c.toBlob(function (b) { thumb = b; }, "image/jpeg", 0.8); }
+        busy(true, t("preparing") + " " + Math.max(0, Math.ceil(len - (v.currentTime - start))) + "s");
+        if (v.currentTime - start >= len || v.ended) { stopped = true; v.pause(); setTimeout(function () { try { rec.stop(); } catch (e) {} }, 120); return; }
+        requestAnimationFrame(draw);
+      };
+      rec.start(250); v.play().then(draw).catch(function () { busy(false); toast(t("videoFail")); });
+    };
+  };
+  v.onerror = function () { busy(false); toast(t("videoFail")); };
+}
+
+/* ---------- in-app camera (getUserMedia: Android asks camera permission once; no microphone) */
+var CAM = { stream: null, rec: null, timer: null };
+function stopCam() {
+  if (CAM.timer) { clearInterval(CAM.timer); CAM.timer = null; }
+  if (CAM.rec && CAM.rec.state === "recording") { CAM.cancel = true; try { CAM.rec.stop(); } catch (e) {} }
+  if (CAM.stream) CAM.stream.getTracks().forEach(function (tr) { tr.stop(); });
+  CAM.stream = null; CAM.rec = null;
+}
+function vCam(mode) {
+  mode = mode === "video" ? "video" : "photo"; UI.camMode = mode;
+  var ph = livePhotos(mTarget()).length;
+  var h = '<div class="cam2"><div class="camtop"><button class="cbtn" aria-label="Close" onclick="back()">✕</button>' +
+    (mode === "photo" ? '<span class="cpill" id="cpill">' + t("photoOf") + " " + Math.min(ph + 1, MAXP) + " " + t("of3") + "</span>" : '<span class="cpill" id="cpill">● 00:00 / 00:10</span>') +
+    (mode === "video" ? '<span class="cpill">🔇 ' + t("noSound") + "</span>" : '<span style="width:40px"></span>') + "</div>" +
+    '<div class="vf2"><video id="cv" autoplay muted playsinline></video><div class="grid3"></div><div class="ctip">' + (mode === "photo" ? t("tipPhoto") : t("tipVideo")) + '</div><div id="flash"></div></div>' +
+    '<div class="cmodes"><button class="' + (mode === "photo" ? "on" : "") + '" onclick="go(\'cam/photo\',true)">PHOTO</button><button class="' + (mode === "video" ? "on" : "") + '" onclick="go(\'cam/video\',true)">VIDEO</button></div>' +
+    '<div class="cbar"><div class="cthumb" id="cthumb">' + (ph ? '<img src="' + mUrl(livePhotos(mTarget())[ph - 1].id) + '" alt="">' : "") + "</div>" +
+    (mode === "photo" ? '<button class="shutter2" aria-label="Take photo" onclick="snap()"><i></i></button>'
+      : '<button class="recbtn" aria-label="Record" onclick="recToggle()"><svg width="86" height="86" viewBox="0 0 86 86"><circle cx="43" cy="43" r="38" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="6"/><circle id="ring" cx="43" cy="43" r="38" fill="none" stroke="#C8412F" stroke-width="6" stroke-dasharray="238.8" stroke-dashoffset="238.8" transform="rotate(-90 43 43)" stroke-linecap="round"/><rect id="recdot" x="21" y="21" width="44" height="44" rx="22" fill="#C8412F"/></svg></button>') +
+    '<span style="width:52px"></span></div></div>';
+  return [h, false, null, startCam];
+}
+function startCam() {
+  stopCam();
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { toast(t("noCamera")); setTimeout(back, 300); return; }
+  var c = UI.camMode === "video" ? { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } } : { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } };
+  navigator.mediaDevices.getUserMedia({ video: c, audio: false }).then(function (s) {
+    if ((location.hash || "").indexOf("#cam") !== 0) { s.getTracks().forEach(function (tr) { tr.stop(); }); return; }
+    CAM.stream = s; var v = document.getElementById("cv"); if (v) { v.srcObject = s; v.play().catch(function () {}); }
+  }).catch(function (e) {
+    if (e && (e.name === "NotFoundError" || e.name === "OverconstrainedError")) { toast(t("noCamera")); back(); return; }
+    camDenied();
+  });
+}
+function camDenied() {
+  stopCam(); var kind = UI.camMode;
+  back();
+  setTimeout(function () {
+    openSheet('<div style="text-align:center;font-size:44px">🚫📷</div><div class="b" style="font-size:19px;text-align:center;margin-top:8px">' + t("camOff") + "</div>" +
+      '<p class="sm muted mt8" style="text-align:center;line-height:1.5">' + t("camOffD") + '</p><div class="card pad mt12" style="font-size:14px;line-height:1.7">' + t("camPath") + "</div>" +
+      '<button class="btn mt16" onclick="closeSheet();location.href=\'fd://settings\'">' + t("openSettings") + '</button><button class="btn sec mt8" onclick="' + (kind === "video" ? "pickVideo()" : "pickPhotos()") + '">' + t("useGallery") + '</button><p class="hint" style="text-align:center">' + t("galNoPerm") + "</p>");
+  }, 250);
+}
+function snap() {
+  var v = document.getElementById("cv"); if (!v || !v.videoWidth) { toast(t("camNotReady")); return; }
+  if (livePhotos(mTarget()).length >= MAXP) { toast(t("photoLimit")); return; }
+  var s = Math.min(1, 1600 / Math.max(v.videoWidth, v.videoHeight)), c = document.createElement("canvas");
+  c.width = Math.round(v.videoWidth * s); c.height = Math.round(v.videoHeight * s);
+  c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
+  var f = document.getElementById("flash"); if (f) { f.className = "on"; setTimeout(function () { f.className = ""; }, 150); }
+  c.toBlob(function (b) {
+    if (!b) { toast(t("photoFail")); return; }
+    addMediaItem("photo", b).then(function (ok) {
+      if (!ok) return;
+      var n = livePhotos(mTarget()).length; toast(t("photoAdded") + " (" + n + "/" + MAXP + ")");
+      if (n >= MAXP) { stopCam(); back(); return; }
+      var p = document.getElementById("cpill"); if (p) p.textContent = t("photoOf") + " " + (n + 1) + " " + t("of3");
+      var th = document.getElementById("cthumb"); if (th) th.innerHTML = '<img src="' + mUrl(livePhotos(mTarget())[n - 1].id) + '" alt="">';
+    });
+  }, "image/jpeg", 0.85);
+}
+function recToggle() {
+  if (CAM.rec && CAM.rec.state === "recording") { CAM.rec.stop(); return; }
+  if (!CAM.stream) return;
+  if (liveVideo(mTarget())) { toast(t("videoLimit")); return; }
+  var mime = recMime(), chunks = [], t0 = Date.now(), thumb = null, v = document.getElementById("cv");
+  try { CAM.rec = new MediaRecorder(CAM.stream, mime ? { mimeType: mime, videoBitsPerSecond: 1800000 } : { videoBitsPerSecond: 1800000 }); } catch (e) { toast(t("videoFail")); return; }
+  CAM.cancel = false;
+  if (v && v.videoWidth) { var c = document.createElement("canvas"), s = Math.min(1, 640 / v.videoWidth); c.width = v.videoWidth * s; c.height = v.videoHeight * s; c.getContext("2d").drawImage(v, 0, 0, c.width, c.height); c.toBlob(function (b) { thumb = b; }, "image/jpeg", 0.8); }
+  CAM.rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+  CAM.rec.onstop = function () {
+    if (CAM.timer) { clearInterval(CAM.timer); CAM.timer = null; }
+    if (CAM.cancel) return;
+    var dur = Math.min(VSEC, (Date.now() - t0) / 1000);
+    addMediaItem("video", new Blob(chunks, { type: mime || "video/webm" }), thumb, dur).then(function (ok) { if (ok) toast(t("videoAdded")); stopCam(); back(); });
+  };
+  CAM.rec.start(250);
+  var dot = document.getElementById("recdot"); if (dot) { dot.setAttribute("x", 31); dot.setAttribute("y", 31); dot.setAttribute("width", 24); dot.setAttribute("height", 24); dot.setAttribute("rx", 5); }
+  CAM.timer = setInterval(function () {
+    var el = (Date.now() - t0) / 1000, p = document.getElementById("cpill"), r = document.getElementById("ring");
+    if (p) p.textContent = "● 00:" + ("0" + Math.min(VSEC, Math.floor(el))).slice(-2) + " / 00:10";
+    if (r) r.setAttribute("stroke-dashoffset", (238.8 * (1 - Math.min(1, el / VSEC))).toFixed(1));
+    if (el >= VSEC && CAM.rec && CAM.rec.state === "recording") CAM.rec.stop();
+  }, 100);
+}
+function vPlay(id) {
+  return ['<div class="viewer"><button class="cbtn vclose" onclick="back()">✕</button><video src="' + mUrl(id) + '" controls autoplay muted playsinline></video><div class="vcap">🔇 ' + t("noSound") + "</div></div>", false];
+}
+
+/* ---------- farmer: edit media of an existing listing, report cards */
+function vFEdit(lid) {
+  var l = L(lid); if (!l) return [topbar("", true), false];
+  UI.mEditLid = lid; l.media = l.media || [];
+  var removed = l.media.filter(function (m) { return m.status === "removed"; });
+  var h = topbar(t("editMedia"), true) + '<div class="wrap"><div class="card row" style="gap:12px;padding:10px 12px">' + coverTile(l, 44) + '<div class="mid"><div class="sm muted">' + t("myListings") + '</div><div class="b">' + esc(vn(l.veg)) + "</div></div>" +
+    (l.reported ? '<span class="pill p-r">' + t("liveReported") + "</span>" : "") + "</div>";
+  if (removed.length && l.reported) h += '<div class="note r mt12">' + icon("flag") + "<span>" + t("removedNote") + "</span></div>" +
+    '<div class="row" style="gap:8px;margin-top:10px">' + removed.map(function () { return '<div class="slot rem" style="width:70px;height:70px"><span class="pl">🚫</span>' + t("removedSlot") + "</div>"; }).join("") + "</div>";
+  h += mediaSection(l.media, false);
+  if (!livePhotos(l.media).length) h += '<button class="btn mt16" onclick="openMediaSheet()">📷 ' + t("addNewPhoto") + "</button>";
+  if (removed.length && l.reported) h += '<p class="hint" style="text-align:center">' + t("mistake") + ' <button class="lnk" onclick="toast(t(\'reviewAsked\'))">' + t("askReview") + "</button></p>";
+  h += '<button class="btn sec mt16" onclick="UI.mEditLid=null;back()">' + t("done") + "</button></div>";
+  return [h, false];
+}
+function coverTile(l, size) {
+  var ph = livePhotos(l.media);
+  if (ph.length && mUrl(ph[0].id)) return '<div class="tile" style="width:' + size + "px;height:" + size + 'px;overflow:hidden;padding:0"><img src="' + mUrl(ph[0].id) + '" style="width:100%;height:100%;object-fit:cover" alt=""></div>';
+  if (l.reported) return '<div class="tile rem" style="width:' + size + "px;height:" + size + 'px;font-size:' + Math.round(size * 0.45) + 'px">🚫</div>';
+  return tile(l.veg, size);
+}
+function reportCards() {
+  var h = "";
+  st.listings.forEach(function (l) {
+    if (l.fid !== "me" || l.status === "closed") return;
+    livePhotos(l.media).forEach(function (m, i) {
+      if (!m.reports || !m.reports.length) return;
+      var last = m.reports[m.reports.length - 1], n = m.reports.length;
+      h += '<div class="card pad mt12" style="border-color:#E3B5AF;background:#FFF7F5"><div class="row" style="gap:10px;align-items:flex-start"><span style="font-size:24px">⚠️</span><div class="mid"><div class="b" style="color:#9B2F26">' + t("replaceTitle") + "</div>" +
+        '<div class="sm" style="margin-top:4px;line-height:1.5">' + tf("replaceText", { n: i + 1, v: esc(vn(l.veg)), r: esc(t(last.reason)) }) + "</div></div></div>" +
+        '<div class="row" style="gap:10px;margin-top:12px"><div style="width:70px;height:70px;border-radius:12px;overflow:hidden;flex:none"><img src="' + mUrl(m.id) + '" style="width:100%;height:100%;object-fit:cover" alt=""></div>' +
+        '<div class="mid"><div class="row sb sm b"><span>' + t("reportsLbl") + '</span><span style="color:#9B2F26">' + n + " " + t("of5") + '</span></div><div class="prog mt8"><i style="width:' + n * 20 + '%;background:#C8412F"></i></div><div class="sm muted mt8" style="line-height:1.4">' + t("autoRemove") + "</div></div></div>" +
+        '<div class="btns"><button class="btn sm" style="flex:1" onclick="go(\'f-edit/' + l.id + '\')">📷 ' + t("replacePhoto") + '</button><button class="btn sec sm" onclick="viewImg(\'' + m.id + '\')">' + t("viewM") + "</button></div></div>";
+    });
+  });
+  return h;
+}
+function viewImg(id) { openSheet('<div class="photo-big"><img src="' + mUrl(id) + '" alt=""></div><button class="btn sec mt12" onclick="closeSheet()">' + t("close") + "</button>"); }
+function listingFlags(l) {
+  var n = 0; livePhotos(l.media).forEach(function (m) { if (m.reports && m.reports.length) n++; });
+  return (l.reported ? '<span class="pill p-r">' + t("removedReported") + "</span>" : "") + (n ? '<span class="pill p-r">' + n + " " + t("photoReported") + "</span>" : "");
+}
+var REASONS = ["rr1", "rr2", "rr3", "rr4"];
+function addReport(l, m, by, reason) {
+  // One report per buyer per photo; 5 reports -> removed automatically; the listing stays live.
+  m.reports = m.reports || [];
+  if (m.reports.some(function (r) { return r.by === by; })) return "dup";
+  m.reports.push({ by: by, reason: reason, at: now() });
+  var idx = livePhotos(l.media).indexOf(m) + 1;
+  if (m.reports.length >= 5) {
+    m.status = "removed"; mDel(m.id);
+    if (!livePhotos(l.media).length) l.reported = true;
+    if (l.fid === "me") note("farmer", tf("n_takedown", { n: idx, v: vn(l.veg) }), "f-edit/" + l.id);
+    return "removed";
+  }
+  if (l.fid === "me") note("farmer", tf("n_report", { n: idx, v: vn(l.veg) }), "f-home");
+  return "ok";
+}
+function simReport() {
+  var mine = st.listings.filter(function (l) { return l.fid === "me" && l.status !== "closed" && livePhotos(l.media).length; });
+  if (!mine.length) return toast(t("noPhotoToReport"));
+  var l = mine[0], ph = livePhotos(l.media), m = ph[ph.length > 1 ? 1 : 0];
+  var used = (m.reports || []).map(function (r) { return r.by; }), who = BUYERS.filter(function (b) { return used.indexOf(b) < 0; })[0] || ("Buyer " + rnd(10, 99));
+  addReport(l, m, who, pick(REASONS)); save(); render(true);
+}
+
+/* ---------- buyer app: demo gallery (generated sample photos), report sheet */
+var GCACHE = {};
+function samplePhoto(l, i, w) {
+  var key = l.id + ":" + i + ":" + w; if (GCACHE[key]) return GCACHE[key];
+  var c = document.createElement("canvas"); c.width = w; c.height = w; var g = c.getContext("2d");
+  var seed = 0; (l.id + i).split("").forEach(function (ch) { seed = (seed * 31 + ch.charCodeAt(0)) >>> 0; });
+  var r = function () { seed = (seed * 1103515245 + 12345) >>> 0; return (seed >>> 8) / 16777216; };
+  var bgs = [["#7d9a4a", "#3e5a22"], ["#a07a4a", "#5b3f22"], ["#c9b98a", "#8a7a4e"], ["#9cc3e6", "#4f7f2a"]][i % 4];
+  var gr = g.createRadialGradient(w * .35, w * .3, w * .05, w * .5, w * .5, w * .75); gr.addColorStop(0, bgs[0]); gr.addColorStop(1, bgs[1]); g.fillStyle = gr; g.fillRect(0, 0, w, w);
+  var e = (VEG[l.veg] || ["🥗"])[0], n = 14 + Math.floor(r() * 8);
+  g.textAlign = "center"; g.textBaseline = "middle";
+  for (var k = 0; k < n; k++) { var s = w * (0.12 + r() * 0.08); g.save(); g.translate(r() * w, r() * w); g.rotate((r() - .5) * 1.4); g.font = s + "px sans-serif"; g.fillText(e, 0, 0); g.restore(); }
+  return (GCACHE[key] = c.toDataURL("image/jpeg", 0.8));
+}
+function seedGallery(l) {
+  if (l.gal) return;
+  var n = 2 + (l.id.charCodeAt(2) % 2), vid = l.mode === "auction" || l.veg === "tomato";
+  l.gal = { n: n, vid: vid, removed: [], counts: {}, mine: {} };
+  for (var i = 0; i < n; i++) l.gal.counts[i] = i === 1 ? 2 : 0;
+  if (l.veg === "potato") { l.gal = { n: 1, vid: false, removed: [0], counts: { 0: 5 }, mine: {} }; }
+}
+function galPhotos(l) { seedGallery(l); var a = []; for (var i = 0; i < l.gal.n; i++) if (l.gal.removed.indexOf(i) < 0) a.push(i); return a; }
+function buyerReported(l) { seedGallery(l); return !galPhotos(l).length; }
+function buyerThumb(l, size) {
+  if (buyerReported(l)) return '<div class="tile rem" style="width:' + size + "px;height:" + size + 'px;font-size:' + Math.round(size * .45) + 'px">🚫</div>';
+  return '<div class="tile" style="width:' + size + "px;height:" + size + 'px;overflow:hidden;padding:0"><img src="' + samplePhoto(l, galPhotos(l)[0], 160) + '" style="width:100%;height:100%;object-fit:cover" alt=""></div>';
+}
+function buyerGallery(l) {
+  var ps = galPhotos(l), items = ps.map(function (i) { return { k: "p", i: i }; });
+  if (l.gal.vid) items.push({ k: "v", i: 9 });
+  if (!items.length) return '<div class="hero rem2"><div style="font-size:54px">🚫</div><span class="pill p-r mt8">' + t("removedReported") + "</span></div>";
+  var h = '<div class="gal" id="gal" onscroll="galScroll(this)">' + items.map(function (it, n) {
+    return '<div class="gslide">' + (it.k === "p" ? '<img src="' + samplePhoto(l, it.i, 720) + '" alt="" onclick="go(\'view/' + l.id + "/" + it.i + '\')">' : '<img src="' + samplePhoto(l, 3, 720) + '" alt="" style="filter:saturate(1.2)"><button class="playc big" onclick="go(\'view/' + l.id + '/v\')">▶</button><span class="dur" style="right:12px;bottom:12px">0:10</span>') + "</div>";
+  }).join("") + '</div><div class="gcount" id="gcount">1 / ' + items.length + "</div>";
+  h += '<div class="dots" id="gdots">' + items.map(function (it, n) { return '<i class="' + (n ? "" : "on") + '"></i>'; }).join("") + "</div>";
+  h += '<div class="row sb mt8"><span class="sm muted">' + t("byFarmer") + " · " + t("sampleNote") + "</span>" + (ps.length ? '<button class="lnk sm" onclick="reportSheet(\'' + l.id + '\')">⚑ ' + t("reportPhoto") + "</button>" : "") + "</div>";
+  return h;
+}
+function galScroll(el) {
+  var n = Math.round(el.scrollLeft / el.clientWidth), dots = document.querySelectorAll("#gdots i"), c = document.getElementById("gcount");
+  dots.forEach(function (d, i) { d.className = i === n ? "on" : ""; }); if (c) c.textContent = (n + 1) + " / " + dots.length;
+  UI.gpos = { h: location.hash, n: n };
+}
+function reportSheet(lid) {
+  var l = L(lid), ps = galPhotos(l), gal = document.getElementById("gal"), cur = gal ? Math.round(gal.scrollLeft / gal.clientWidth) : 0;
+  var idx = ps[Math.min(cur, ps.length - 1)];
+  UI.rep = { lid: lid, i: idx, reason: "rr1" };
+  drawReport();
+}
+function drawReport() {
+  var R = UI.rep, l = L(R.lid), mine = l.gal.mine[R.i];
+  openSheet('<div class="row" style="gap:12px"><img src="' + samplePhoto(l, R.i, 160) + '" style="width:56px;height:56px;border-radius:12px;object-fit:cover" alt=""><div class="mid"><div class="b" style="font-size:18px">' + t("reportTitle") + '</div><p class="sm muted">' + t("whatWrong") + "</p></div></div>" +
+    '<div class="card mt12">' + REASONS.map(function (k) { return '<button class="item" style="gap:12px" onclick="UI.rep.reason=\'' + k + '\';drawReport()"><span class="radio' + (R.reason === k ? " on" : "") + '"></span><span class="t">' + t(k) + "</span></button>"; }).join("") + "</div>" +
+    '<div class="note b mt12">' + icon("info") + "<span>" + t("reportNote") + "</span></div>" +
+    (mine ? '<button class="btn mt12" disabled>' + t("reportedDone") + " ✓</button>" : '<button class="btn mt12" onclick="sendReport()">' + t("sendReport") + "</button>"));
+}
+function sendReport() {
+  var R = UI.rep, l = L(R.lid), g = l.gal;
+  if (g.mine[R.i]) return;
+  g.mine[R.i] = R.reason; g.counts[R.i] = (g.counts[R.i] || 0) + 1;
+  var removed = g.counts[R.i] >= 5;
+  if (removed) g.removed.push(R.i);
+  save(); closeSheet(); toast(t(removed ? "takenDown" : "reported1")); render(true);
+}
+function vView(lid, i) {
+  var l = L(lid); if (!l) return [topbar("", true), false];
+  if (i === "v") {
+    setTimeout(function () { playSample(l); }, 50);
+    return ['<div class="viewer"><button class="cbtn vclose" onclick="back()">✕</button><canvas id="vc" width="720" height="720" style="width:100%;max-height:80vh;object-fit:contain"></canvas><div class="vcap">🔇 ' + t("noSound") + " · " + t("sampleNote") + '</div><div class="vprog"><i id="vpi"></i></div></div>', false];
+  }
+  return ['<div class="viewer"><button class="cbtn vclose" onclick="back()">✕</button><img src="' + samplePhoto(l, +i, 900) + '" alt=""><div class="vcap">' + t("sampleNote") + "</div></div>", false];
+}
+function playSample(l) {
+  var c = document.getElementById("vc"); if (!c) return;
+  var g = c.getContext("2d"), base = new Image(), t0 = Date.now(); base.src = samplePhoto(l, 3, 720);
+  var e = (VEG[l.veg] || ["🥗"])[0];
+  (function frame() {
+    var el = (Date.now() - t0) / 1000; if (!document.getElementById("vc")) return;
+    g.drawImage(base, 0, 0, 720, 720); g.font = "90px sans-serif"; g.textAlign = "center";
+    for (var k = 0; k < 5; k++) g.fillText(e, (k * 160 + el * 60) % 820 - 50, 360 + Math.sin(el * 2 + k) * 160);
+    var p = document.getElementById("vpi"); if (p) p.style.width = Math.min(100, el * 10) + "%";
+    if (el < VSEC) requestAnimationFrame(frame);
+  })();
+}
+
+function ownHero(l) {
+  var ph = livePhotos(l.media);
+  if (ph.length && mUrl(ph[0].id)) return '<div class="hero" style="padding:0;overflow:hidden"><img src="' + mUrl(ph[0].id) + '" style="width:100%;height:100%;object-fit:cover" alt=""></div>';
+  var v = VEG[l.veg] || ["🥗", "#E8ECE4"];
+  return '<div class="hero" style="background:' + v[1] + '">' + v[0] + "</div>";
+}
+
+/* ------------------------------------------------------------ simulation engine */
+function settleAuctions() {
+  var ch = false;
+  st.listings.forEach(function (l) {
+    if (l.mode !== "auction") return;
+    if (l.status === "active" && l.ends <= now()) {
+      ch = true;
+      var sorted = l.bids.slice().sort(function (a, b) { return b.amount - a.amount; }), b = sorted[0];
+      if (!b || (l.reserve && b.amount < l.reserve)) { l.status = "closed"; if (l.fid === "me") note("farmer", t("n_unsold") + " " + vn(l.veg), "f-home"); return; }
+      l.status = "won"; l.winner = b.by === "me" ? "me" : b.name; l.confirmBy = l.ends + 2 * HOUR; l.skipped = [];
+      if (b.by === "me") note("buyer", t("n_won") + " " + vn(l.veg) + " · " + money(b.amount), "bids");
+      else if (l.fid === "me") sched("simWinConfirm", rnd(5000, 9000), { lid: l.id });
+      else l.status = "sold";
+    }
+    if (l.status === "won" && l.confirmBy <= now()) {
+      ch = true;
+      var wasMe = l.winner === "me";
+      l.skipped = (l.skipped || []).concat([l.winner]);
+      if (wasMe) { note("buyer", t("n_wonPassed") + " " + vn(l.veg), "bids"); l.bids = l.bids.filter(function (x) { return x.by !== "me"; }); }
+      var next = l.bids.slice().sort(function (a, b) { return b.amount - a.amount; }).filter(function (x) { return l.skipped.indexOf(x.by === "me" ? "me" : x.name) < 0 && (!l.reserve || x.amount >= l.reserve); })[0];
+      if (!next) { l.status = "closed"; return; }
+      l.winner = next.by === "me" ? "me" : next.name; l.confirmBy = now() + 2 * HOUR;
+      if (l.fid === "me") { note("farmer", t("n_passed") + " " + vn(l.veg), "f-offers"); sched("simWinConfirm", rnd(5000, 9000), { lid: l.id }); }
+      else if (l.winner !== "me") l.status = "sold";
+    }
+  });
+  return ch;
+}
+function runEvent(ev) {
+  var d = ev.data, l = d.lid ? L(d.lid) : null, o = d.oid ? O(d.oid) : null;
+  switch (ev.type) {
+    case "farmerConfirm":
+      if (o && o.status === "placed") { o.status = "confirmed"; o.hist.confirmed = now(); note("buyer", farmerOf(o.fid).name + " " + t("n_confirmed") + " · #" + o.no, "order/" + o.id); sched("farmerReady", rnd(8000, 15000), { oid: o.id }); }
+      break;
+    case "farmerReady":
+      if (o && o.status === "confirmed") { o.status = "ready"; o.hist.ready = now(); note("buyer", t("n_ready") + " " + vn(o.veg) + " · #" + o.no, "order/" + o.id); }
+      break;
+    case "rivalBid":
+      if (l && l.status === "active" && l.ends > now()) {
+        var b = topBid(l);
+        if (b && b.by === "me") { l.bids.push({ by: "sim", name: pick(BUYERS), amount: b.amount + l.inc * rnd(1, 2), at: now() }); note("buyer", t("n_outbid") + " " + vn(l.veg) + " · " + money(topBid(l).amount), "listing/" + l.id); }
+      }
+      break;
+    case "farmerReply":
+      var of = l && findOffer(l, d.oid);
+      if (of && of.status === "pending") {
+        var fn = farmerOf(l.fid).name, r = of.amount / l.price;
+        if (r >= 0.9) {
+          of.status = "accepted"; var q = Math.min(of.qty, l.qty);
+          var ord = newOrder(l, { qty: q, price: of.amount, src: "nego", status: "confirmed" }); l.qty -= q; if (l.qty <= 0) { l.qty = 0; l.status = "sold"; }
+          sched("farmerReady", rnd(8000, 15000), { oid: ord.id });
+          note("buyer", fn + " " + t("n_offerAcc") + " " + vn(l.veg) + " · " + money(of.amount), "order/" + ord.id);
+        } else if (r >= 0.7) { of.status = "countered"; of.counter = Math.round((of.amount + l.price) / 2); note("buyer", fn + " " + t("n_offerCtr") + " " + vn(l.veg) + " · " + money(of.counter), "listing/" + l.id); }
+        else { of.status = "rejected"; note("buyer", fn + " " + t("n_offerRej") + " " + vn(l.veg), "listing/" + l.id); }
+      }
+      break;
+    case "simBid":
+      if (l && l.status === "active" && l.ends > now() && d.n < 5) {
+        var tb = topBid(l), amt = tb ? tb.amount + l.inc * rnd(1, 2) : l.start + l.inc * rnd(0, 2);
+        l.bids.push({ by: "sim", name: pick(BUYERS), amount: amt, at: now() });
+        note("farmer", t("n_newBid") + " " + vn(l.veg) + " · " + money(amt), "f-offers");
+        sched("simBid", rnd(20000, 45000), { lid: l.id, n: d.n + 1 });
+      }
+      break;
+    case "simOffer":
+      if (l && l.status === "active" && d.n < 3) {
+        var oa = Math.round(l.price * (0.78 + Math.random() * 0.17));
+        l.offers.push({ id: uid(), by: "sim", name: pick(BUYERS), amount: oa, qty: Math.max(1, Math.min(l.qty, rnd(2, 8))), status: "pending", at: now() });
+        note("farmer", t("n_newOffer") + " " + vn(l.veg) + " · " + money(oa), "f-offers");
+        sched("simOffer", rnd(30000, 60000), { lid: l.id, n: d.n + 1 });
+      }
+      break;
+    case "simOrder":
+      if (l && l.status === "active" && d.n < 3) {
+        var qq = Math.max(1, Math.min(l.qty, rnd(2, 6))), dl = l.del.on && Math.random() < 0.5;
+        newOrder(l, { qty: qq, price: l.price, method: dl ? "delivery" : "pickup", buyer: "sim", buyerName: pick(BUYERS), buyerPhone: "9" + rnd(100000000, 999999999) });
+        l.qty -= qq; if (l.qty <= 0) { l.qty = 0; l.status = "sold"; }
+        note("farmer", t("n_newOrder") + " " + vn(l.veg) + " · " + qq + " " + un(l.unit), "f-orders");
+        sched("simOrder", rnd(35000, 70000), { lid: l.id, n: d.n + 1 });
+      }
+      break;
+    case "simWinConfirm":
+      if (l && l.status === "won" && l.winner !== "me") {
+        var wb = l.bids.filter(function (x) { return x.name === l.winner; }).sort(function (a, b) { return b.amount - a.amount; })[0];
+        l.status = "sold";
+        newOrder(l, { qty: l.qty, price: wb.amount, src: "auction", buyer: "sim", buyerName: l.winner, buyerPhone: "9" + rnd(100000000, 999999999) });
+        note("farmer", t("n_winConf") + " " + vn(l.veg) + " · " + l.winner, "f-orders");
+      }
+      break;
+    case "simCounterReply":
+      var oc = l && findOffer(l, d.oid);
+      if (oc && oc.status === "countered" && l.status === "active") {
+        if (oc.counter <= oc.amount * 1.1) {
+          oc.status = "accepted"; oc.amount = oc.counter; var q2 = Math.min(oc.qty, l.qty);
+          newOrder(l, { qty: q2, price: oc.counter, src: "nego", buyer: "sim", buyerName: oc.name, buyerPhone: "9" + rnd(100000000, 999999999) });
+          l.qty -= q2; if (l.qty <= 0) { l.qty = 0; l.status = "sold"; }
+          note("farmer", oc.name + " " + t("n_ctrAcc") + " " + vn(l.veg), "f-orders");
+        } else { oc.status = "rejected"; note("farmer", oc.name + " " + t("n_ctrRej") + " " + vn(l.veg), "f-offers"); }
+      }
+      break;
+    case "simReview":
+      if (o && !o.reviewed && !o.disputed) {
+        var s = Math.random() < 0.7 ? 5 : 4; st.farm.rs += s; st.farm.rc++; o.reviewed = true;
+        st.reviews.unshift({ fid: "me", name: o.buyerName, stars: s, text: pick(["Fresh and good quantity.", "Fair price, friendly farmer.", "Ready on time. Will buy again."]), at: now() });
+        note("farmer", o.buyerName + " " + t("n_review") + " · " + "★".repeat(s), "farmer/me");
+      }
+      break;
+    case "verify":
+      if (st.farm && !st.farm.verified) { st.farm.verified = true; st.farm.vstate = "done"; note("farmer", "✅ " + t("n_verified"), "profile"); }
+      break;
+  }
+}
+function refreshMarket() {
+  if (APP === "farmer") return false;
+  var active = st.listings.filter(function (l) { return l.fid !== "me" && l.status === "active" && !(l.mode === "auction" && l.ends <= now()); }).length;
+  if (active >= 4) return false;
+  var tps = TEMPLATES.slice().sort(function () { return Math.random() - 0.5; }).slice(0, 6);
+  tps.forEach(function (tp) { var c = JSON.parse(JSON.stringify(tp)); if (c[3].mins) c[3].mins = rnd(15, 240); st.listings.unshift(makeListing(c)); });
+  st.listings = st.listings.filter(function (l) { return l.fid === "me" || l.status === "active" || l.status === "won" || now() - l.created < 3 * 24 * HOUR || st.orders.some(function (o) { return o.lid === l.id; }); });
+  note("buyer", t("n_newListings"), "explore");
+  return true;
+}
+var pendingRender = false;
+function tick() {
+  if (!st) return;
+  var ch = false, due = [], keep = [];
+  st.events.forEach(function (e) { (e.at <= now() ? due : keep).push(e); });
+  if (due.length) { st.events = keep; due.forEach(runEvent); ch = true; }
+  if (settleAuctions()) ch = true;
+  if (st.user && refreshMarket()) ch = true;
+  if (ch) {
+    save();
+    var a = document.activeElement, typing = a && /INPUT|TEXTAREA|SELECT/.test(a.tagName);
+    if (typing || document.getElementById("sheet").innerHTML || /^#(cam|trim|play|view)/.test(location.hash || "")) pendingRender = true; else render(true);
+  }
+  document.querySelectorAll("[data-end]").forEach(function (el) { el.textContent = left(+el.getAttribute("data-end") - now()); });
+}
+document.addEventListener("focusout", function () { setTimeout(function () { var a = document.activeElement; if (pendingRender && !(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName)) && !document.getElementById("sheet").innerHTML) { pendingRender = false; render(true); } }, 150); });
+
+/* ------------------------------------------------------------ boot */
+load();
+registerCrops();
+if (!location.hash) location.replace(st.user ? (st.role === "farmer" ? "#f-home" : "#explore") : "#welcome");
+idbOpen().then(function () { mCleanup(); render(); setInterval(tick, 1000); });
+</script>
+</body>
+</html>

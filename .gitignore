@@ -1,0 +1,13 @@
+# Signing keys must never be committed
+*.pem
+*.jks
+*.keystore
+*.p12
+# Generated
+prototype/app/farmer.html
+prototype/app/consumer.html
+prototype/tests/media/
+prototype/tests/screenshots/
+__pycache__/
+*.pyc
+docs/source/out/
